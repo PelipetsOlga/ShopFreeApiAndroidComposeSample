@@ -5,5 +5,5 @@ import kotlinx.coroutines.flow.Flow
 
 interface GetCategoriesUsecase {
 
-    fun execute(): Flow<Category>
+    fun execute(): Flow<List<Category>>
 }

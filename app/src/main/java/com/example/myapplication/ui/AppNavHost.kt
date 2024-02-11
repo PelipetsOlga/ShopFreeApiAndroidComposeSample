@@ -1,11 +1,13 @@
 package com.example.myapplication.ui
 
-import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
-import androidx.navigation.compose.NavHost
 import androidx.navigation.NavHostController
+import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import com.example.myapplication.ui.bottomMenu.BottomNavItem
+import com.example.myapplication.ui.favourites.FavouritesScreen
+import com.example.myapplication.ui.search.SearchScreen
+import com.example.myapplication.ui.shop.categories.CategoriesScreen
 
 @Composable
 fun BottomNavGraph(navController: NavHostController) {
@@ -14,7 +16,7 @@ fun BottomNavGraph(navController: NavHostController) {
         startDestination = BottomNavItem.Home.route
     ) {
         composable(route = BottomNavItem.Home.route) {
-            HomeScreen()
+            CategoriesScreen()
         }
         composable(route = BottomNavItem.Search.route) {
             SearchScreen()
@@ -23,19 +25,4 @@ fun BottomNavGraph(navController: NavHostController) {
             FavouritesScreen()
         }
     }
-}
-
-@Composable
-fun HomeScreen() {
-    Text("Home")
-}
-
-@Composable
-fun SearchScreen() {
-    Text("Search")
-}
-
-@Composable
-fun FavouritesScreen() {
-    Text("Favourites")
 }
