@@ -5,9 +5,59 @@ import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.navigation.NamedNavArgument
+import androidx.navigation.NavType
+import androidx.navigation.navArgument
 
-sealed class BottomNavItem(val route: String, val icon: ImageVector, val label: String) {
-     object Home : BottomNavItem("home", Icons.Default.Home, "Home")
-     object Search : BottomNavItem("search", Icons.Default.Search, "Search")
-     object Favourites : BottomNavItem("favourites", Icons.Default.Favorite, "Favourites")
+private const val HOME = "home"
+private const val SEARCH = "search"
+private const val FAVOURITES = "favourites"
+private const val CATEGORY = "category"
+private const val PRODUCT = "product"
+private val homeIcon = Icons.Default.Home
+
+sealed interface BottomNavItem {
+    val route: String
+    val icon: ImageVector
+        get() = homeIcon
+    val label: String
+        get() = ""
+    val arguments: List<NamedNavArgument>?
+        get() = null
+    val routeWithArguments: String?
+        get() = null
+}
+
+data object Home : BottomNavItem {
+    override val route = HOME
+    override val icon = homeIcon
+    override val label = "Home"
+}
+
+data object Search : BottomNavItem {
+    override val route = SEARCH
+    override val icon = Icons.Default.Search
+    override val label = "Search"
+}
+
+data object Favourites : BottomNavItem {
+    override val route = FAVOURITES
+    override val icon = Icons.Default.Favorite
+    override val label = "Favourites"
+}
+
+data object Category : BottomNavItem {
+    override val route = CATEGORY
+    const val argTag = "category_name"
+    override val routeWithArguments = "${route}/{$argTag}"
+    override val arguments = listOf(navArgument(argTag) { type = NavType.StringType })
+    fun getRouteWithArguments(categoryName: String) = "${route}/$categoryName"
+}
+
+data object Product : BottomNavItem {
+    override val route = PRODUCT
+    const val argTag = "product"
+    override val routeWithArguments = "${route}/{$argTag}"
+    override val arguments = listOf(navArgument(argTag) { type = NavType.StringType })
+    fun getRouteWithArguments(productId: String) = "${route}/$productId"
 }

@@ -16,4 +16,8 @@ class RepositoryImpl @Inject constructor(
     override fun getCategoryProducts(categoryName: String): Flow<List<Product>> {
         return apiHelper.getCategoryProducts(categoryName)
     }
+
+    override fun getProduct(productId: Int): Flow<Product>{
+        return apiHelper.getProductById(productId)
+    }
 }

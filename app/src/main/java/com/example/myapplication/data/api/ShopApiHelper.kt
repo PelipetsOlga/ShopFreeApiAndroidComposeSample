@@ -5,6 +5,6 @@ import kotlinx.coroutines.flow.Flow
 
 interface ShopApiHelper {
     fun getAllCategories(): Flow<List<String>>
-
     fun getCategoryProducts(categoryName: String): Flow<List<Product>>
+    fun getProductById(productId: Int): Flow<Product>
 }

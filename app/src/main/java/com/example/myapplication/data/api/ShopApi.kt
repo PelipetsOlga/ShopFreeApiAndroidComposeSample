@@ -13,4 +13,9 @@ interface ShopApi {
     suspend fun getProductsInCategory(
         @Path("categoryName") categoryName: String
     ): List<Product>
+
+    @GET("/products/{productId}")
+    suspend fun getProductById(
+        @Path("productId") productId: Int
+    ): Product
 }

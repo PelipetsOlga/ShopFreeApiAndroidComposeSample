@@ -7,4 +7,6 @@ interface Repository {
     fun getAllCategories(): Flow<List<String>>
 
     fun getCategoryProducts(categoryName: String): Flow<List<Product>>
+
+    fun getProduct(productId: Int): Flow<Product>
 }
