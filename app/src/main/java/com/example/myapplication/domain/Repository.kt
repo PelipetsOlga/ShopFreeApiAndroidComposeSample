@@ -8,5 +8,5 @@ interface Repository {
 
     fun getCategoryProducts(categoryName: String): Flow<List<Product>>
 
-    fun getProduct(productId: Int): Flow<Product>
+    fun getProduct(productId: String): Flow<Product>
 }

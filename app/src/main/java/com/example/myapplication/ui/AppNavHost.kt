@@ -1,6 +1,5 @@
 package com.example.myapplication.ui
 
-import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.NavHostController
@@ -45,7 +44,7 @@ fun BottomNavGraph(navController: NavHostController) {
 
             CategoryProductsScreen(categoryName = categoryName ?: "Test category",
                 onProductClick = { productId ->
-                    navController.navigateSingleTopTo(Product.getRouteWithArguments(productId))
+                    navController.navigate(Product.getRouteWithArguments(productId))
                 })
         }
         composable(

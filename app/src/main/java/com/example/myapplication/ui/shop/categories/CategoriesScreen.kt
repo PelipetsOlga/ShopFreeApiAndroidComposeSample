@@ -1,14 +1,13 @@
 package com.example.myapplication.ui.shop.categories
 
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.ui.Modifier
 import androidx.hilt.navigation.compose.hiltViewModel
+import com.example.myapplication.ui.ui_components.CategoryCard
 
 @Composable
 fun CategoriesScreen(
@@ -20,8 +19,9 @@ fun CategoriesScreen(
         Text("Categories")
         LazyColumn {
             items(categories.size) { index ->
-                Text(text = categories[index].title,
-                    modifier = Modifier.clickable { onCategoryClick.invoke(categories[index].title) })
+                CategoryCard(
+                    categories[index],
+                    onCategoryClick = { onCategoryClick.invoke(categories[index].title) })
             }
         }
     }

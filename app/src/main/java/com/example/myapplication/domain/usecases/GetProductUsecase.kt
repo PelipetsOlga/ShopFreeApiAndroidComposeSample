@@ -5,5 +5,5 @@ import kotlinx.coroutines.flow.Flow
 
 interface GetProductUsecase {
 
-    fun execute(productId: Int): Flow<Product>
+    fun execute(productId: String): Flow<Product>
 }

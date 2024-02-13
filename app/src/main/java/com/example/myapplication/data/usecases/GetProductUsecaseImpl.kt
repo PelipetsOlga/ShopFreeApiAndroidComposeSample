@@ -9,7 +9,7 @@ import javax.inject.Inject
 class GetProductUsecaseImpl @Inject constructor(
     private val repository: Repository
 ) : GetProductUsecase {
-    override fun execute(productId: Int): Flow<Product> {
+    override fun execute(productId: String): Flow<Product> {
         return repository.getProduct(productId)
     }
 }

@@ -14,6 +14,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.myapplication.domain.models.Product
+import com.example.myapplication.ui.ui_components.ProductItemCard
 
 @Composable
 fun CategoryProductsScreen(
@@ -34,18 +35,6 @@ fun CategoryProductsScreen(
             items(products.size, key = { index -> products[index].id }) { index ->
                 ProductItemCard(product = products[index], onProductClick = onProductClick)
             }
-        }
-    }
-}
-
-@Composable
-fun ProductItemCard(product: Product, onProductClick: (String) -> Unit = {}) {
-    val title = product.title
-    val description = product.description
-    Card(modifier = Modifier.clickable { onProductClick.invoke(product.id.toString()) }) {
-        Column {
-            Text(text = title, fontWeight = FontWeight.Bold)
-            Text(text = description)
         }
     }
 }

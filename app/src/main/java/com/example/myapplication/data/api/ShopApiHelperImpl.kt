@@ -14,7 +14,7 @@ class ShopApiHelperImpl @Inject constructor(private val api: ShopApi) : ShopApiH
         return flow { emit(api.getProductsInCategory(categoryName))  }
     }
 
-    override fun getProductById(productId: Int): Flow<Product>{
+    override fun getProductById(productId: String): Flow<Product>{
         return flow { emit(api.getProductById(productId)) }
     }
 }

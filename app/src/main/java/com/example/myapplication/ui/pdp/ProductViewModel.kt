@@ -2,7 +2,6 @@ package com.example.myapplication.ui.pdp
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.myapplication.domain.models.Category
 import com.example.myapplication.domain.models.PRODUCT_EMPTY
 import com.example.myapplication.domain.models.Product
 import com.example.myapplication.domain.usecases.GetProductUsecase
@@ -13,13 +12,13 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class PdpViewModel @Inject constructor(
+class ProductViewModel @Inject constructor(
     private val usecase: GetProductUsecase
 ) : ViewModel() {
     private val _product = MutableStateFlow(PRODUCT_EMPTY)
     val product: Flow<Product> get() = _product
 
-    private fun fetchProduct(productId: Int) {
+    fun fetchProduct(productId: String) {
         viewModelScope.launch {
             try {
                 usecase.execute(productId).collect {

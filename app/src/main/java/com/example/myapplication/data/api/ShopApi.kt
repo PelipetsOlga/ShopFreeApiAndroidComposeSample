@@ -16,6 +16,6 @@ interface ShopApi {
 
     @GET("/products/{productId}")
     suspend fun getProductById(
-        @Path("productId") productId: Int
+        @Path("productId") productId: String
     ): Product
 }
