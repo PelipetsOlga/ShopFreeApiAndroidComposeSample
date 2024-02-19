@@ -11,7 +11,7 @@ class GetCategoriesUsecaseImpl @Inject constructor(
     private val repository: Repository
 ) : GetCategoriesUsecase {
     override fun execute(): Flow<List<Category>> {
-        return repository.getAllCategories().map { list -> list.map { it.toCategory() } }
+        return repository.getAllCategories().map { list -> list.map { it.toCategory() }.flatMap { e -> listOf(e,e) } }
     }
 }
 

@@ -1,10 +1,12 @@
 package com.example.myapplication.ui
 
 import androidx.compose.runtime.Composable
+import androidx.navigation.NamedNavArgument
 import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
+import androidx.navigation.navArgument
 import com.example.myapplication.ui.bottomMenu.Category
 import com.example.myapplication.ui.bottomMenu.Favourites
 import com.example.myapplication.ui.bottomMenu.Home
@@ -16,23 +18,25 @@ import com.example.myapplication.ui.search.SearchScreen
 import com.example.myapplication.ui.shop.categories.CategoriesScreen
 import com.example.myapplication.ui.shop.category.CategoryProductsScreen
 
+const val argPageName = "pageName"
+
 @Composable
 fun BottomNavGraph(navController: NavHostController) {
     NavHost(
         navController = navController,
         startDestination = Home.route
     ) {
-        composable(route = Home.route) {
+        composable(route = Home.route, arguments = listOf(navArgument(argPageName) { defaultValue = "Categories" })) {
             CategoriesScreen(
                 onCategoryClick = { categoryName ->
                     navController.navigateSingleTopTo(Category.getRouteWithArguments(categoryName))
                 }
             )
         }
-        composable(route = Search.route) {
+        composable(route = Search.route, arguments = listOf(navArgument(argPageName) { defaultValue = "Search" })) {
             SearchScreen()
         }
-        composable(route = Favourites.route) {
+        composable(route = Favourites.route, arguments = listOf(navArgument(argPageName) { defaultValue = "Favorites" })) {
             FavouritesScreen()
         }
         composable(
