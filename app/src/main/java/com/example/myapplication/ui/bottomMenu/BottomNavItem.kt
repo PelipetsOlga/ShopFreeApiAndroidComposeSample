@@ -8,6 +8,7 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.navigation.NamedNavArgument
 import androidx.navigation.NavType
 import androidx.navigation.navArgument
+import com.example.myapplication.ui.argPageName
 
 private const val HOME = "home"
 private const val SEARCH = "search"
@@ -50,7 +51,7 @@ data object Category : BottomNavItem {
     override val route = CATEGORY
     const val argTag = "category_name"
     override val routeWithArguments = "${route}/{$argTag}"
-    override val arguments = listOf(navArgument(argTag) { type = NavType.StringType })
+    override val arguments = listOf(navArgument(argTag) { type = NavType.StringType }, navArgument(argPageName) { defaultValue = "Category" })
     fun getRouteWithArguments(categoryName: String) = "${route}/$categoryName"
 }
 
@@ -58,6 +59,6 @@ data object Product : BottomNavItem {
     override val route = PRODUCT
     const val argTag = "product"
     override val routeWithArguments = "${route}/{$argTag}"
-    override val arguments = listOf(navArgument(argTag) { type = NavType.StringType })
+    override val arguments = listOf(navArgument(argTag) { type = NavType.StringType }, navArgument(argPageName) { defaultValue = "Product" })
     fun getRouteWithArguments(productId: String) = "${route}/$productId"
 }
