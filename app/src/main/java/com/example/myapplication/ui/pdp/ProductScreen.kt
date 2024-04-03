@@ -24,7 +24,6 @@ fun ProductScreen(
     }
 
     Column {
-        Text("Product #$productId")
         if (product != PRODUCT_EMPTY) {
             ProductCard(product = product)
         }

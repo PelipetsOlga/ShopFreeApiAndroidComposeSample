@@ -30,7 +30,6 @@ fun BottomNavBar(navController: NavHostController) {
             containerColor = MaterialTheme.colorScheme.primary,
             contentColor = MaterialTheme.colorScheme.onPrimary
         ) {
-//            val backStackEntry = navController.currentBackStackEntryAsState()
             screens.forEach { screen ->
                 val currentRoute = navBackStackEntry?.destination?.route
                 val selected = (currentRoute == screen.route)
@@ -83,4 +82,8 @@ fun RowScope.AddItem(
             }
         }
     )
+}
+
+fun NavDestination.showBottomBar(){
+
 }

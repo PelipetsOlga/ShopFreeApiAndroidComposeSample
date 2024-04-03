@@ -16,7 +16,6 @@ fun CategoriesScreen(
 ) {
     val categories by viewModel.categories.collectAsState(emptyList())
     Column {
-        Text("Categories")
         LazyColumn {
             items(categories.size) { index ->
                 CategoryCard(

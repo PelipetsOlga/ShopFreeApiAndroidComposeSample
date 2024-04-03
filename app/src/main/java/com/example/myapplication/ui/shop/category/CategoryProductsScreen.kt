@@ -30,7 +30,6 @@ fun CategoryProductsScreen(
     }
 
     Column {
-        Text("Category $categoryName")
         LazyColumn {
             items(products.size, key = { index -> products[index].id }) { index ->
                 ProductItemCard(product = products[index], onProductClick = onProductClick)

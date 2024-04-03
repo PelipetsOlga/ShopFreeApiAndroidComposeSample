@@ -1,7 +1,9 @@
 package com.example.myapplication.ui
 
+import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
-import androidx.navigation.NamedNavArgument
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.unit.dp
 import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
@@ -23,8 +25,9 @@ const val argPageName = "pageName"
 @Composable
 fun BottomNavGraph(navController: NavHostController) {
     NavHost(
+        modifier = Modifier.padding(bottom = 80.dp, top = 64.dp),
         navController = navController,
-        startDestination = Home.route
+        startDestination = Home.route,
     ) {
         composable(route = Home.route, arguments = listOf(navArgument(argPageName) { defaultValue = "Categories" })) {
             CategoriesScreen(
