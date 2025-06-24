@@ -5,6 +5,7 @@ import com.example.myapplication.domain.Repository
 import com.example.myapplication.domain.models.Bag
 import com.example.myapplication.domain.models.BagItem
 import com.example.myapplication.domain.models.Product
+import com.example.myapplication.domain.models.Profile
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -13,7 +14,8 @@ import javax.inject.Inject
 
 class RepositoryImpl @Inject constructor(
     private val apiHelper: ShopApiHelper,
-    private val bagPreferences: BagPreferences
+    private val bagPreferences: BagPreferences,
+    private val profilePreferences: ProfilePreferences
 ) : Repository {
     private val bag = MutableStateFlow(bagPreferences.loadBag())
 
@@ -87,4 +89,12 @@ class RepositoryImpl @Inject constructor(
     }
 
     override fun getBag(): StateFlow<Bag> = bag.asStateFlow()
+
+    override fun saveProfile(profile: Profile) {
+        profilePreferences.saveProfile(profile)
+    }
+
+    override fun getProfile(): Profile? {
+        return profilePreferences.loadProfile()
+    }
 }

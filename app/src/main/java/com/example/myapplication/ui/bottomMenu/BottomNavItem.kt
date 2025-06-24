@@ -1,8 +1,8 @@
 package com.example.myapplication.ui.bottomMenu
 
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material.icons.filled.Home
+import androidx.compose.material.icons.filled.Person
 import androidx.compose.material.icons.filled.ShoppingBag
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.navigation.NamedNavArgument
@@ -12,7 +12,7 @@ import com.example.myapplication.ui.argPageName
 
 private const val HOME = "home"
 private const val BAG = "bag"
-private const val FAVOURITES = "favourites"
+private const val PROFILE = "profile"
 private const val CATEGORY = "category"
 private const val PRODUCT = "product"
 private val homeIcon = Icons.Default.Home
@@ -41,10 +41,10 @@ data object Bag : BottomNavItem {
     override val label = "Bag"
 }
 
-data object Favourites : BottomNavItem {
-    override val route = FAVOURITES
-    override val icon = Icons.Default.Favorite
-    override val label = "Favourites"
+data object Profile : BottomNavItem {
+    override val route = PROFILE
+    override val icon = Icons.Default.Person
+    override val label = "Profile"
 }
 
 data object Category : BottomNavItem {

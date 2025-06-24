@@ -21,14 +21,14 @@ fun BottomNavBar(navController: NavHostController) {
     val screens = listOf(
         Home,
         Bag,
-        Favourites
+        Profile
     )
     val navBackStackEntry by navController.currentBackStackEntryAsState()
     val currentDestination = navBackStackEntry?.destination
     if (currentDestination?.route == Home.route
         || currentDestination?.route == Category.route
         || currentDestination?.route == Bag.route
-        || currentDestination?.route == Favourites.route
+        || currentDestination?.route == Profile.route
     ) {
 
         BottomAppBar(
