@@ -9,11 +9,12 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
 import com.example.myapplication.domain.models.Category
@@ -25,7 +26,10 @@ fun CategoryCard(category: Category, onCategoryClick: (String) -> Unit = {}) {
             .padding(vertical = 8.dp, horizontal = 16.dp)
             .clickable { onCategoryClick.invoke(category.title) },
         colors = CardDefaults.cardColors(
-            containerColor = MaterialTheme.colorScheme.surfaceVariant
+            containerColor = Color.White
+        ),
+        elevation = CardDefaults.cardElevation(
+            defaultElevation = 8.dp
         )
     ) {
         Row(
@@ -46,4 +50,14 @@ fun CategoryCard(category: Category, onCategoryClick: (String) -> Unit = {}) {
 
         }
     }
+}
+
+@Preview
+@Composable
+fun PreviewCategoryCard() {
+    val mockCategory = Category(
+        title = "Mock Category",
+        image = "https://picsum.photos/200"
+    )
+    CategoryCard(category = mockCategory)
 }
