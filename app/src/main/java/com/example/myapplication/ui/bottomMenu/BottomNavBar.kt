@@ -1,6 +1,7 @@
 package com.example.myapplication.ui.bottomMenu
 
 import androidx.compose.foundation.layout.RowScope
+import androidx.compose.foundation.layout.padding
 import androidx.compose.material.BottomNavigationItem
 import androidx.compose.material3.BottomAppBar
 import androidx.compose.material3.Icon
@@ -8,7 +9,10 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.unit.dp
 import androidx.navigation.NavDestination
 import androidx.navigation.NavDestination.Companion.hierarchy
 import androidx.navigation.NavGraph.Companion.findStartDestination
@@ -19,12 +23,12 @@ import androidx.navigation.compose.currentBackStackEntryAsState
 fun BottomNavBar(navController: NavHostController) {
     val screens = listOf(
         Home,
-        Search,
+        Bag,
         Favourites
     )
     val navBackStackEntry by navController.currentBackStackEntryAsState()
     val currentDestination = navBackStackEntry?.destination
-    if (currentDestination?.route == Home.route || currentDestination?.route == Search.route || currentDestination?.route == Favourites.route) {
+    if (currentDestination?.route == Home.route || currentDestination?.route == Bag.route || currentDestination?.route == Favourites.route) {
 
         BottomAppBar(
             containerColor = MaterialTheme.colorScheme.primary,
@@ -57,6 +61,7 @@ fun RowScope.AddItem(
         label = {
             Text(
                 text = screen.label,
+                textAlign = TextAlign.Center,
                 style = TextStyle(
                     color = if (selected) MaterialTheme.colorScheme.onPrimary
                     else MaterialTheme.colorScheme.onPrimary.copy(alpha = 0.5f)

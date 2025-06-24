@@ -13,14 +13,14 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
+import com.example.myapplication.ui.bottomMenu.Bag
 import com.example.myapplication.ui.bottomMenu.Category
 import com.example.myapplication.ui.bottomMenu.Favourites
 import com.example.myapplication.ui.bottomMenu.Home
 import com.example.myapplication.ui.bottomMenu.Product
-import com.example.myapplication.ui.bottomMenu.Search
 import com.example.myapplication.ui.favourites.FavouritesScreen
 import com.example.myapplication.ui.pdp.ProductScreen
-import com.example.myapplication.ui.search.SearchScreen
+import com.example.myapplication.ui.search.BagScreen
 import com.example.myapplication.ui.shop.categories.CategoriesScreen
 import com.example.myapplication.ui.shop.category.CategoryProductsScreen
 
@@ -53,14 +53,14 @@ fun BottomNavGraph(
             )
         }
         composable(
-            route = Search.route,
-            arguments = listOf(navArgument(argPageName) { defaultValue = "Search" }),
+            route = Bag.route,
+            arguments = listOf(navArgument(argPageName) { defaultValue = "Bag" }),
             enterTransition = { fadeIn(animationSpec) },
             exitTransition = { fadeOut(animationSpec) },
             popEnterTransition = { fadeIn(animationSpec) },
             popExitTransition = { fadeOut(animationSpec) },
         ) {
-            SearchScreen()
+            BagScreen()
         }
         composable(
             route = Favourites.route,

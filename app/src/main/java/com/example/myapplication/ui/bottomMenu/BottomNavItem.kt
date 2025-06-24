@@ -3,7 +3,7 @@ package com.example.myapplication.ui.bottomMenu
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material.icons.filled.Home
-import androidx.compose.material.icons.filled.Search
+import androidx.compose.material.icons.filled.ShoppingBag
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.navigation.NamedNavArgument
 import androidx.navigation.NavType
@@ -11,7 +11,7 @@ import androidx.navigation.navArgument
 import com.example.myapplication.ui.argPageName
 
 private const val HOME = "home"
-private const val SEARCH = "search"
+private const val BAG = "bag"
 private const val FAVOURITES = "favourites"
 private const val CATEGORY = "category"
 private const val PRODUCT = "product"
@@ -35,10 +35,10 @@ data object Home : BottomNavItem {
     override val label = "Home"
 }
 
-data object Search : BottomNavItem {
-    override val route = SEARCH
-    override val icon = Icons.Default.Search
-    override val label = "Search"
+data object Bag : BottomNavItem {
+    override val route = BAG
+    override val icon = Icons.Default.ShoppingBag
+    override val label = "Bag"
 }
 
 data object Favourites : BottomNavItem {
