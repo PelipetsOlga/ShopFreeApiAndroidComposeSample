@@ -49,11 +49,32 @@ class RepositoryImpl @Inject constructor(
         }
     }
 
+    override fun addToBag(product: Product, qty: Int) {
+        repeat(times = qty) {
+            addToBag(product)
+        }
+    }
+
     override fun removeFromBag(productId: String) {
         val currentBag = bag.value
         bag.value = currentBag.copy(
             items = currentBag.items.filter { it.product.id != productId }
         )
+    }
+
+    override fun getQuantityInBag(productId: String): Int {
+        return bag.value.items.filter { it.product.id == productId }.size
+    }
+
+    override fun updateQuantityInBag(productId: String, qty: Int) {
+        val currentBag = bag.value
+        bag.value = currentBag.copy(items = currentBag.items.map { bagItem ->
+            if (productId == bagItem.product.id) {
+                bagItem.copy(quantity = qty)
+            } else {
+                bagItem
+            }
+        })
     }
 
     override fun getBag(): StateFlow<Bag> = bag.asStateFlow()

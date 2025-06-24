@@ -14,7 +14,13 @@ interface Repository {
 
     fun addToBag(product: Product)
 
+    fun addToBag(product: Product, qty: Int)
+
     fun removeFromBag(productId: String)
+
+    fun getQuantityInBag(productId: String): Int
+
+    fun updateQuantityInBag(productId: String, qty: Int)
 
     fun getBag(): StateFlow<Bag>
 }

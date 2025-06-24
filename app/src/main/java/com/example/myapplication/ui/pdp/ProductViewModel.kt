@@ -33,7 +33,9 @@ class ProductViewModel @Inject constructor(
         }
     }
 
-    fun addToBag(product: Product) {
-        repository.addToBag(product)
+    fun addToBag(product: Product, quantity: Int) {
+        repeat(quantity) {
+            repository.addToBag(product)
+        }
     }
 }

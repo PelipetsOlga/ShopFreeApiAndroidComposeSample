@@ -11,7 +11,6 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.AddShoppingCart
-import androidx.compose.material.icons.filled.ShoppingBag
 import androidx.compose.material3.Button
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
@@ -20,6 +19,10 @@ import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableIntStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -85,7 +88,9 @@ fun ProductItemCard(
                     fontSize = 18.sp
                 )
                 IconButton(
-                    modifier = Modifier.padding(start = 16.dp).size(36.dp),
+                    modifier = Modifier
+                        .padding(start = 16.dp)
+                        .size(36.dp),
                     onClick = { onAddToBag(product) }
                 ) {
                     Icon(
@@ -102,8 +107,10 @@ fun ProductItemCard(
 @Composable
 fun ProductCard(
     product: Product,
-    onAddToBag: (Product) -> Unit = {}
+    onAddToBag: (Int) -> Unit = { }
 ) {
+    var quantity by remember { mutableIntStateOf(1) }
+
     Card(
         modifier = Modifier
             .fillMaxWidth()
@@ -127,7 +134,7 @@ fun ProductCard(
                     .fillMaxWidth()
                     .height(200.dp)
             )
-            
+
             Column(
                 modifier = Modifier.padding(top = 40.dp)
             ) {
@@ -141,8 +148,16 @@ fun ProductCard(
                     modifier = Modifier
                         .fillMaxWidth()
                         .padding(vertical = 16.dp),
-                    horizontalArrangement = Arrangement.End
+                    horizontalArrangement = Arrangement.SpaceBetween,
+                    verticalAlignment = Alignment.CenterVertically
                 ) {
+                    QuantityPicker(
+                        count = quantity,
+                        quantityCallback = { newQuantity ->
+                            quantity = newQuantity
+                        }
+                    )
+
                     Text(
                         text = "$${String.format("%.2f", product.price)}",
                         fontWeight = FontWeight.ExtraBold,
@@ -150,9 +165,9 @@ fun ProductCard(
                         color = Color.DarkGray
                     )
                 }
-                
+
                 Button(
-                    onClick = { onAddToBag(product) },
+                    onClick = { onAddToBag(quantity) },
                     modifier = Modifier
                         .fillMaxWidth()
                         .padding(top = 16.dp)
@@ -162,9 +177,9 @@ fun ProductCard(
                         fontWeight = FontWeight.Bold
                     )
                 }
-                
+
                 Text(
-                    text = product.description, 
+                    text = product.description,
                     fontWeight = FontWeight.Light,
                     fontSize = 14.sp,
                     modifier = Modifier.padding(top = 16.dp)

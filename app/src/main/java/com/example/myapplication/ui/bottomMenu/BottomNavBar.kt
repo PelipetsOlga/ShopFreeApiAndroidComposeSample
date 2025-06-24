@@ -1,7 +1,6 @@
 package com.example.myapplication.ui.bottomMenu
 
 import androidx.compose.foundation.layout.RowScope
-import androidx.compose.foundation.layout.padding
 import androidx.compose.material.BottomNavigationItem
 import androidx.compose.material3.BottomAppBar
 import androidx.compose.material3.Icon
@@ -9,10 +8,8 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
-import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.unit.dp
 import androidx.navigation.NavDestination
 import androidx.navigation.NavDestination.Companion.hierarchy
 import androidx.navigation.NavGraph.Companion.findStartDestination
@@ -28,7 +25,11 @@ fun BottomNavBar(navController: NavHostController) {
     )
     val navBackStackEntry by navController.currentBackStackEntryAsState()
     val currentDestination = navBackStackEntry?.destination
-    if (currentDestination?.route == Home.route || currentDestination?.route == Bag.route || currentDestination?.route == Favourites.route) {
+    if (currentDestination?.route == Home.route
+        || currentDestination?.route == Category.route
+        || currentDestination?.route == Bag.route
+        || currentDestination?.route == Favourites.route
+    ) {
 
         BottomAppBar(
             containerColor = MaterialTheme.colorScheme.primary,
@@ -89,6 +90,6 @@ fun RowScope.AddItem(
     )
 }
 
-fun NavDestination.showBottomBar(){
+fun NavDestination.showBottomBar() {
 
 }
