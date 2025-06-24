@@ -1,5 +1,8 @@
 package com.example.myapplication.domain.models
 
+import kotlinx.serialization.Serializable
+
+@Serializable
 data class Product(
     val id: String,
     val title: String,
@@ -10,6 +13,7 @@ data class Product(
     val rating: Rating = RATING_EMPTY
 )
 
+@Serializable
 data class Rating(
     val rate: Double,
     val count: Int

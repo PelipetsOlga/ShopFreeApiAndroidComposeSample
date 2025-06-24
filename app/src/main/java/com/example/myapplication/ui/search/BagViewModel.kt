@@ -11,6 +11,10 @@ import javax.inject.Inject
 class BagViewModel @Inject constructor(
     private val repository: Repository
 ) : ViewModel() {
-    
+
     val bag: StateFlow<Bag> = repository.getBag()
+
+    fun removeFromBag(productId: String) {
+        repository.removeFromBag(productId)
+    }
 } 

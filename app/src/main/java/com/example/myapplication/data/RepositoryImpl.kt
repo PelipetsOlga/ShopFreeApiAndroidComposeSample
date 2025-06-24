@@ -12,9 +12,10 @@ import kotlinx.coroutines.flow.asStateFlow
 import javax.inject.Inject
 
 class RepositoryImpl @Inject constructor(
-    private val apiHelper: ShopApiHelper
+    private val apiHelper: ShopApiHelper,
+    private val bagPreferences: BagPreferences
 ) : Repository {
-    private val bag = MutableStateFlow(Bag(items = emptyList()))
+    private val bag = MutableStateFlow(bagPreferences.loadBag())
 
     override fun getAllCategories(): Flow<List<String>> {
         return apiHelper.getAllCategories()
@@ -32,12 +33,14 @@ class RepositoryImpl @Inject constructor(
         val currentBag = bag.value
         val bagItem = currentBag.items.firstOrNull { it.product.id == product.id }
         if (bagItem == null) {
-            bag.value = currentBag.copy(
+            val newBag = currentBag.copy(
                 items = currentBag.items.toMutableList()
                     .apply { add(BagItem(product = product, quantity = 1)) }.toList()
             )
+            bag.value = newBag
+            bagPreferences.saveBag(newBag)
         } else {
-            bag.value = currentBag.copy(
+            val newBag = currentBag.copy(
                 items = currentBag.items.map { bagItem ->
                     if (product.id == bagItem.product.id) {
                         bagItem.copy(quantity = bagItem.quantity + 1)
@@ -46,6 +49,8 @@ class RepositoryImpl @Inject constructor(
                     }
                 }
             )
+            bag.value = newBag
+            bagPreferences.saveBag(newBag)
         }
     }
 
@@ -57,9 +62,11 @@ class RepositoryImpl @Inject constructor(
 
     override fun removeFromBag(productId: String) {
         val currentBag = bag.value
-        bag.value = currentBag.copy(
+        val newBag = currentBag.copy(
             items = currentBag.items.filter { it.product.id != productId }
         )
+        bag.value = newBag
+        bagPreferences.saveBag(newBag)
     }
 
     override fun getQuantityInBag(productId: String): Int {
@@ -68,13 +75,15 @@ class RepositoryImpl @Inject constructor(
 
     override fun updateQuantityInBag(productId: String, qty: Int) {
         val currentBag = bag.value
-        bag.value = currentBag.copy(items = currentBag.items.map { bagItem ->
+        val newBag = currentBag.copy(items = currentBag.items.map { bagItem ->
             if (productId == bagItem.product.id) {
                 bagItem.copy(quantity = qty)
             } else {
                 bagItem
             }
         })
+        bag.value = newBag
+        bagPreferences.saveBag(newBag)
     }
 
     override fun getBag(): StateFlow<Bag> = bag.asStateFlow()
