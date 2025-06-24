@@ -30,7 +30,10 @@ fun ProductScreen(
         modifier = Modifier.fillMaxSize().verticalScroll(rememberScrollState())
     ) {
         if (product != PRODUCT_EMPTY) {
-            ProductCard(product = product)
+            ProductCard(
+                product = product,
+                onAddToBag = { product -> viewModel.addToBag(product) }
+            )
         }
     }
 }

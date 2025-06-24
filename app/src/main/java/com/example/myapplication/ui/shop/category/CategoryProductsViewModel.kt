@@ -2,6 +2,7 @@ package com.example.myapplication.ui.shop.category
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.myapplication.domain.Repository
 import com.example.myapplication.domain.models.Product
 import com.example.myapplication.domain.usecases.GetCategoryProductsUsecase
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -12,7 +13,8 @@ import javax.inject.Inject
 
 @HiltViewModel
 class CategoryProductsViewModel @Inject constructor(
-    private val usecase: GetCategoryProductsUsecase
+    private val usecase: GetCategoryProductsUsecase,
+    private val repository: Repository
 ) : ViewModel() {
     private val _products = MutableStateFlow<List<Product>>(emptyList())
     val products: Flow<List<Product>> get() = _products
@@ -28,5 +30,9 @@ class CategoryProductsViewModel @Inject constructor(
                 _products.value = emptyList()
             }
         }
+    }
+
+    fun addToBag(product: Product) {
+        repository.addToBag(product)
     }
 }

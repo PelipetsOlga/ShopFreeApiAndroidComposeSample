@@ -7,13 +7,22 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.AddShoppingCart
+import androidx.compose.material.icons.filled.ShoppingBag
+import androidx.compose.material3.Button
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -21,10 +30,13 @@ import androidx.compose.ui.unit.sp
 import coil.compose.AsyncImage
 import com.example.myapplication.domain.models.PRODUCT_MOCK
 import com.example.myapplication.domain.models.Product
-import androidx.compose.ui.graphics.Color
 
 @Composable
-fun ProductItemCard(product: Product, onProductClick: (String) -> Unit = {}) {
+fun ProductItemCard(
+    product: Product,
+    onProductClick: (String) -> Unit = {},
+    onAddToBag: (Product) -> Unit = {}
+) {
     Card(
         modifier = Modifier
             .padding(vertical = 8.dp, horizontal = 16.dp)
@@ -57,27 +69,41 @@ fun ProductItemCard(product: Product, onProductClick: (String) -> Unit = {}) {
                         .weight(1f)
                 ) {
                     Text(
-                        text = product.title, 
+                        text = product.title,
                         fontWeight = FontWeight.Bold
                     )
                 }
             }
             Row(
                 modifier = Modifier.fillMaxWidth(),
-                horizontalArrangement = Arrangement.End
+                horizontalArrangement = Arrangement.End,
+                verticalAlignment = Alignment.CenterVertically
             ) {
                 Text(
-                    text = "$${product.price}",
+                    text = "$${String.format("%.2f", product.price)}",
                     fontWeight = FontWeight.ExtraBold,
                     fontSize = 18.sp
                 )
+                IconButton(
+                    modifier = Modifier.padding(start = 16.dp).size(36.dp),
+                    onClick = { onAddToBag(product) }
+                ) {
+                    Icon(
+                        imageVector = Icons.Default.AddShoppingCart,
+                        contentDescription = "Add to Bag",
+                        tint = MaterialTheme.colorScheme.primary
+                    )
+                }
             }
         }
     }
 }
 
 @Composable
-fun ProductCard(product: Product) {
+fun ProductCard(
+    product: Product,
+    onAddToBag: (Product) -> Unit = {}
+) {
     Card(
         modifier = Modifier
             .fillMaxWidth()
@@ -125,11 +151,23 @@ fun ProductCard(product: Product) {
                     )
                 }
                 
+                Button(
+                    onClick = { onAddToBag(product) },
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(top = 16.dp)
+                ) {
+                    Text(
+                        text = "ADD TO BAG",
+                        fontWeight = FontWeight.Bold
+                    )
+                }
+                
                 Text(
                     text = product.description, 
                     fontWeight = FontWeight.Light,
                     fontSize = 14.sp,
-                    modifier = Modifier.padding(top = 8.dp)
+                    modifier = Modifier.padding(top = 16.dp)
                 )
             }
         }

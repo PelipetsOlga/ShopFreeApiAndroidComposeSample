@@ -2,6 +2,7 @@ package com.example.myapplication.ui.pdp
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.myapplication.domain.Repository
 import com.example.myapplication.domain.models.PRODUCT_EMPTY
 import com.example.myapplication.domain.models.Product
 import com.example.myapplication.domain.usecases.GetProductUsecase
@@ -13,7 +14,8 @@ import javax.inject.Inject
 
 @HiltViewModel
 class ProductViewModel @Inject constructor(
-    private val usecase: GetProductUsecase
+    private val usecase: GetProductUsecase,
+    private val repository: Repository
 ) : ViewModel() {
     private val _product = MutableStateFlow(PRODUCT_EMPTY)
     val product: Flow<Product> get() = _product
@@ -29,5 +31,9 @@ class ProductViewModel @Inject constructor(
                 _product.value = PRODUCT_EMPTY
             }
         }
+    }
+
+    fun addToBag(product: Product) {
+        repository.addToBag(product)
     }
 }
