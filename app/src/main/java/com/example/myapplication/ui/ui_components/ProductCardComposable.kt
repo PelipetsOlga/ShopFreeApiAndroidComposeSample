@@ -78,28 +78,69 @@ fun ProductItemCard(product: Product, onProductClick: (String) -> Unit = {}) {
 
 @Composable
 fun ProductCard(product: Product) {
-    Column(
+    Card(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(16.dp)
-    ) {
-
-        AsyncImage(
-            model = product.image,
-            contentDescription = "${product.title}. ${product.description}",
-            modifier = Modifier.fillMaxWidth(),
+            .padding(16.dp),
+        colors = CardDefaults.cardColors(
+            containerColor = Color.White
+        ),
+        elevation = CardDefaults.cardElevation(
+            defaultElevation = 8.dp
         )
-        Text(product.title, fontWeight = FontWeight.Bold)
-        Text("$${product.price}")
-        Text(product.description, fontWeight = FontWeight.Light)
+    ) {
+        Column(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(16.dp)
+        ) {
+            AsyncImage(
+                model = product.image,
+                contentDescription = "${product.title}. ${product.description}",
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(200.dp)
+            )
+            
+            Column(
+                modifier = Modifier.padding(top = 40.dp)
+            ) {
+                Text(
+                    text = product.title.uppercase(),
+                    fontWeight = FontWeight.Bold,
+                    fontSize = 24.sp
+                )
+
+                Row(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(vertical = 16.dp),
+                    horizontalArrangement = Arrangement.End
+                ) {
+                    Text(
+                        text = "$${String.format("%.2f", product.price)}",
+                        fontWeight = FontWeight.ExtraBold,
+                        fontSize = 36.sp,
+                        color = Color.DarkGray
+                    )
+                }
+                
+                Text(
+                    text = product.description, 
+                    fontWeight = FontWeight.Light,
+                    fontSize = 14.sp,
+                    modifier = Modifier.padding(top = 8.dp)
+                )
+            }
+        }
     }
 }
 
-//@Preview
-//@Composable
-//fun previewProductItem() {
-//    ProductItemCard(PRODUCT_MOCK)
-//}
+@Preview
+@Composable
+fun previewProductItem() {
+    ProductItemCard(PRODUCT_MOCK)
+}
 
 @Preview
 @Composable
