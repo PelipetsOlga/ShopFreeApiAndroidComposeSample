@@ -1,6 +1,7 @@
 package com.example.myapplication.ui.ui_components
 
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -16,9 +17,11 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import coil.compose.AsyncImage
 import com.example.myapplication.domain.models.PRODUCT_MOCK
 import com.example.myapplication.domain.models.Product
+import androidx.compose.ui.graphics.Color
 
 @Composable
 fun ProductItemCard(product: Product, onProductClick: (String) -> Unit = {}) {
@@ -27,26 +30,48 @@ fun ProductItemCard(product: Product, onProductClick: (String) -> Unit = {}) {
             .padding(vertical = 8.dp, horizontal = 16.dp)
             .clickable { onProductClick.invoke(product.id) },
         colors = CardDefaults.cardColors(
-            containerColor = MaterialTheme.colorScheme.surfaceVariant
+            containerColor = Color.White
+        ),
+        elevation = CardDefaults.cardElevation(
+            defaultElevation = 8.dp
         )
     ) {
-        Row(
+        Column(
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(16.dp)
         ) {
-            AsyncImage(
-                model = product.image,
-                contentDescription = "${product.title}. ${product.description}",
-                modifier = Modifier
-                    .height(120.dp)
-                    .width(120.dp)
-            )
-            Column(modifier = Modifier.padding(start = 16.dp)) {
-                Text(product.title, fontWeight = FontWeight.Bold)
-                Text("$${product.price}")
+            Row(
+                modifier = Modifier.fillMaxWidth()
+            ) {
+                AsyncImage(
+                    model = product.image,
+                    contentDescription = "${product.title}. ${product.description}",
+                    modifier = Modifier
+                        .height(120.dp)
+                        .width(120.dp)
+                )
+                Column(
+                    modifier = Modifier
+                        .padding(start = 16.dp)
+                        .weight(1f)
+                ) {
+                    Text(
+                        text = product.title, 
+                        fontWeight = FontWeight.Bold
+                    )
+                }
             }
-
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.End
+            ) {
+                Text(
+                    text = "$${product.price}",
+                    fontWeight = FontWeight.ExtraBold,
+                    fontSize = 18.sp
+                )
+            }
         }
     }
 }

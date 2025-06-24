@@ -28,7 +28,7 @@ fun CategoryProductsScreen(
 
     Column(modifier = modifier.fillMaxSize()) {
         LazyColumn {
-            items(products.size, key = { index -> products[index].id }) { index ->
+            items(products.size, key = { index -> "${products[index].id}-$index" }) { index ->
                 ProductItemCard(product = products[index], onProductClick = onProductClick)
             }
         }
