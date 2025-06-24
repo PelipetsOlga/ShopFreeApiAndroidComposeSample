@@ -38,6 +38,7 @@ fun AppTheme(
 
     androidx.compose.material3.MaterialTheme(
         colorScheme = colorScheme,
+        typography = Typography,
         content = content
     )
 }

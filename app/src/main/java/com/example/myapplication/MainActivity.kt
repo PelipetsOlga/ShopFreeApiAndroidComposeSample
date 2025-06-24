@@ -81,7 +81,7 @@ fun ShopApp(navController: NavHostController = rememberNavController()) {
                                     argPageName
                                 )?.defaultValue as? String
                                     ?: "",
-                                style = androidx.compose.material.MaterialTheme.typography.h6,
+                                style = MaterialTheme.typography.titleLarge,
                                 color = MaterialTheme.colorScheme.onPrimary
                             )
                         },

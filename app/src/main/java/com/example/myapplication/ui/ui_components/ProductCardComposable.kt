@@ -26,10 +26,8 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import coil.compose.AsyncImage
 import com.example.myapplication.domain.models.PRODUCT_MOCK
 import com.example.myapplication.domain.models.Product
@@ -73,7 +71,7 @@ fun ProductItemCard(
                 ) {
                     Text(
                         text = product.title,
-                        fontWeight = FontWeight.Bold
+                        style = MaterialTheme.typography.titleMedium
                     )
                 }
             }
@@ -84,8 +82,7 @@ fun ProductItemCard(
             ) {
                 Text(
                     text = "$${String.format("%.2f", product.price)}",
-                    fontWeight = FontWeight.ExtraBold,
-                    fontSize = 18.sp
+                    style = MaterialTheme.typography.titleLarge
                 )
                 IconButton(
                     modifier = Modifier
@@ -140,8 +137,7 @@ fun ProductCard(
             ) {
                 Text(
                     text = product.title.uppercase(),
-                    fontWeight = FontWeight.Bold,
-                    fontSize = 24.sp
+                    style = MaterialTheme.typography.headlineLarge
                 )
 
                 Row(
@@ -160,8 +156,7 @@ fun ProductCard(
 
                     Text(
                         text = "$${String.format("%.2f", product.price)}",
-                        fontWeight = FontWeight.ExtraBold,
-                        fontSize = 36.sp,
+                        style = MaterialTheme.typography.displayLarge,
                         color = Color.DarkGray
                     )
                 }
@@ -174,14 +169,13 @@ fun ProductCard(
                 ) {
                     Text(
                         text = "ADD TO BAG",
-                        fontWeight = FontWeight.Bold
+                        style = MaterialTheme.typography.titleMedium
                     )
                 }
 
                 Text(
                     text = product.description,
-                    fontWeight = FontWeight.Light,
-                    fontSize = 14.sp,
+                    style = MaterialTheme.typography.bodySmall,
                     modifier = Modifier.padding(top = 16.dp)
                 )
             }

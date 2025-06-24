@@ -63,7 +63,7 @@ fun RowScope.AddItem(
             Text(
                 text = screen.label,
                 textAlign = TextAlign.Center,
-                style = TextStyle(
+                style = MaterialTheme.typography.labelMedium.copy(
                     color = if (selected) MaterialTheme.colorScheme.onPrimary
                     else MaterialTheme.colorScheme.onPrimary.copy(alpha = 0.5f)
                 ),

@@ -34,11 +34,9 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.onGloballyPositioned
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import coil.compose.AsyncImage
 
@@ -55,15 +53,15 @@ fun BagScreen(
             .padding(all = 16.dp),
         verticalArrangement = Arrangement.spacedBy(16.dp)
     ) {
+        item {
+            BagSummaryCard(bag = bag)
+        }
+
         items(bag.items, key = { it.product.id }) { bagItem ->
             RemovableBagItemCard(
                 bagItem = bagItem,
                 onDelete = { viewModel.removeFromBag(bagItem.product.id) }
             )
-        }
-
-        item {
-            BagSummaryCard(bag = bag)
         }
     }
 }
@@ -156,12 +154,11 @@ fun BagItemCard(
                         ) {
                             Text(
                                 text = bagItem.product.title,
-                                fontWeight = FontWeight.Bold
+                                style = MaterialTheme.typography.titleMedium
                             )
                             Text(
                                 text = "Q-ty: ${bagItem.quantity}",
-                                fontWeight = FontWeight.Medium,
-                                fontSize = 14.sp,
+                                style = MaterialTheme.typography.titleSmall,
                                 color = MaterialTheme.colorScheme.primary,
                                 modifier = Modifier.padding(top = 4.dp)
                             )
@@ -175,15 +172,13 @@ fun BagItemCard(
                                         bagItem.product.price * bagItem.quantity
                                     )
                                 }",
-                                fontWeight = FontWeight.ExtraBold,
-                                fontSize = 18.sp,
+                                style = MaterialTheme.typography.titleLarge,
                                 textAlign = TextAlign.End,
                             )
                             Text(
                                 text = "Delete",
                                 color = Color.Red,
-                                fontSize = 12.sp,
-                                fontWeight = FontWeight.SemiBold,
+                                style = MaterialTheme.typography.labelLarge,
                                 textAlign = TextAlign.End,
                                 modifier = Modifier
                                     .fillMaxWidth()
@@ -228,8 +223,7 @@ fun DeleteOverlay(
                 Text(
                     text = "Undo",
                     color = Color.White,
-                    fontWeight = FontWeight.Bold,
-                    fontSize = 24.sp,
+                    style = MaterialTheme.typography.headlineLarge,
                     textAlign = TextAlign.Center,
                     modifier = Modifier
                         .fillMaxWidth()
@@ -255,8 +249,7 @@ fun DeleteOverlay(
                 Text(
                     text = "Delete",
                     color = Color.White,
-                    fontWeight = FontWeight.Bold,
-                    fontSize = 24.sp,
+                    style = MaterialTheme.typography.headlineLarge,
                     textAlign = TextAlign.Center,
                     modifier = Modifier
                         .fillMaxWidth()
@@ -288,14 +281,12 @@ fun BagSummaryCard(bag: com.example.myapplication.domain.models.Bag) {
         ) {
             Text(
                 text = "Items in Bag - $totalItems",
-                fontWeight = FontWeight.Bold,
-                fontSize = 24.sp,
+                style = MaterialTheme.typography.headlineLarge,
                 color = MaterialTheme.colorScheme.onPrimaryContainer
             )
             Text(
                 text = "Total: $${String.format("%.2f", totalPrice)}",
-                fontWeight = FontWeight.ExtraBold,
-                fontSize = 36.sp,
+                style = MaterialTheme.typography.displayLarge,
                 color = MaterialTheme.colorScheme.onPrimaryContainer,
                 modifier = Modifier.padding(top = 8.dp)
             )
