@@ -1,6 +1,6 @@
 package com.example.myapplication.ui.shop.categories
 
-import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
@@ -12,11 +12,12 @@ import com.example.myapplication.ui.ui_components.CategoryCard
 @Composable
 fun CategoriesScreen(
     viewModel: CategoriesViewModel = hiltViewModel(),
-    onCategoryClick: (String) -> Unit
+    onCategoryClick: (String) -> Unit,
+    modifier: Modifier = Modifier,
 ) {
     val categories by viewModel.categories.collectAsState(emptyList())
     LazyColumn(
-        modifier = Modifier.fillMaxWidth()
+        modifier = modifier.fillMaxSize()
     ) {
         items(categories.size) { index ->
             CategoryCard(
