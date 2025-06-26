@@ -28,6 +28,7 @@ import com.example.myapplication.domain.models.ShippingAddress
 import com.example.myapplication.ui.profile.ProfileViewModel
 import com.example.myapplication.ui.ui_components.DeleteIconButton
 import com.example.myapplication.ui.ui_components.PrimaryButton
+import io.cux.analytics_sdk.composable.maskElement
 
 @Composable
 fun EditShippingAddressScreen(
@@ -140,6 +141,7 @@ fun EditShippingAddressScreen(
             label = { Text("Street Address") },
             modifier = Modifier
                 .fillMaxWidth()
+                .maskElement()
                 .padding(bottom = 16.dp),
             singleLine = true,
             isError = streetError != null,
@@ -159,6 +161,7 @@ fun EditShippingAddressScreen(
             label = { Text("City") },
             modifier = Modifier
                 .fillMaxWidth()
+                .maskElement()
                 .padding(bottom = 16.dp),
             singleLine = true,
             isError = cityError != null,
@@ -197,6 +200,7 @@ fun EditShippingAddressScreen(
             label = { Text("Zip/Postal Code") },
             modifier = Modifier
                 .fillMaxWidth()
+                .maskElement()
                 .padding(bottom = 16.dp),
             singleLine = true,
             keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),

@@ -31,6 +31,7 @@ import com.example.myapplication.domain.models.Payments
 import com.example.myapplication.ui.profile.ProfileViewModel
 import com.example.myapplication.ui.ui_components.DeleteIconButton
 import com.example.myapplication.ui.ui_components.PrimaryButton
+import io.cux.analytics_sdk.composable.maskElement
 
 @Composable
 fun EditPaymentMethodsScreen(
@@ -46,6 +47,7 @@ fun EditPaymentMethodsScreen(
     Column(
         modifier = modifier
             .fillMaxSize()
+            .maskElement()
             .padding(16.dp)
             .verticalScroll(rememberScrollState())
     ) {

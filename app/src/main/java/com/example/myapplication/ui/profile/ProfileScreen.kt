@@ -36,6 +36,7 @@ import com.example.myapplication.ui.profile.payment.CardMaskingUtils
 import com.example.myapplication.ui.ui_components.AddIconButton
 import com.example.myapplication.ui.ui_components.EditIconButton
 import com.example.myapplication.ui.ui_components.RedPrimaryButton
+import io.cux.analytics_sdk.composable.maskElement
 
 @Composable
 fun ProfileScreen(
@@ -113,6 +114,7 @@ fun PersonalDataCard(
         Column(
             modifier = Modifier
                 .fillMaxWidth()
+                .maskElement()
                 .padding(16.dp)
         ) {
             Row(
@@ -168,7 +170,7 @@ fun PersonalDataCard(
 
 @Composable
 fun ShippingAddressCard(
-    shippingAddress: com.example.myapplication.domain.models.ShippingAddress?,
+    shippingAddress: ShippingAddress?,
     onEditClick: () -> Unit
 ) {
     Card(
@@ -181,6 +183,7 @@ fun ShippingAddressCard(
         Column(
             modifier = Modifier
                 .fillMaxWidth()
+                .maskElement()
                 .padding(16.dp)
         ) {
             Row(
@@ -251,6 +254,7 @@ fun PaymentsCard(
         Column(
             modifier = Modifier
                 .fillMaxWidth()
+                .maskElement()
                 .padding(16.dp)
         ) {
             Row(

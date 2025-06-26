@@ -26,6 +26,7 @@ import com.example.myapplication.domain.models.PersonalData
 import com.example.myapplication.ui.profile.ProfileViewModel
 import com.example.myapplication.ui.ui_components.DeleteIconButton
 import com.example.myapplication.ui.ui_components.PrimaryButton
+import io.cux.analytics_sdk.composable.maskElement
 
 @Composable
 fun EditPersonalDataScreen(
@@ -106,6 +107,7 @@ fun EditPersonalDataScreen(
             onValueChange = { onFirstNameChange(it) },
             label = { Text("First Name") },
             modifier = Modifier
+                .maskElement()
                 .fillMaxWidth()
                 .padding(bottom = 16.dp),
             singleLine = true,
@@ -126,6 +128,7 @@ fun EditPersonalDataScreen(
             label = { Text("Second Name") },
             modifier = Modifier
                 .fillMaxWidth()
+                .maskElement()
                 .padding(bottom = 24.dp),
             singleLine = true,
             isError = secondNameError != null,
