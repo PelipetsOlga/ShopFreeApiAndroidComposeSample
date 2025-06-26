@@ -7,16 +7,16 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.CreditCard
+import androidx.compose.material.icons.filled.Edit
 import androidx.compose.material.icons.filled.LocationOn
 import androidx.compose.material.icons.filled.Person
 import androidx.compose.material3.Button
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -32,7 +32,10 @@ import androidx.hilt.navigation.compose.hiltViewModel
 @Composable
 fun ProfileScreen(
     modifier: Modifier = Modifier,
-    viewModel: ProfileViewModel = hiltViewModel()
+    viewModel: ProfileViewModel = hiltViewModel(),
+    onEditPersonalData: () -> Unit = {},
+    onEditShippingAddress: () -> Unit = {},
+    onEditPaymentMethods: () -> Unit = {}
 ) {
     val profile by viewModel.profile.collectAsState()
 
@@ -73,24 +76,36 @@ fun ProfileScreen(
         } else {
             // Personal Data Section
             item {
-                PersonalDataCard(personalData = profile!!.personalData)
+                PersonalDataCard(
+                    personalData = profile!!.personalData,
+                    onEditClick = onEditPersonalData
+                )
             }
 
             // Shipping Address Section
             item {
-                ShippingAddressCard(shippingAddress = profile!!.shippingAddress)
+                ShippingAddressCard(
+                    shippingAddress = profile!!.shippingAddress,
+                    onEditClick = onEditShippingAddress
+                )
             }
 
             // Payments Section
             item {
-                PaymentsCard(payments = profile!!.payments)
+                PaymentsCard(
+                    payments = profile!!.payments,
+                    onEditClick = onEditPaymentMethods
+                )
             }
         }
     }
 }
 
 @Composable
-fun PersonalDataCard(personalData: com.example.myapplication.domain.models.PersonalData) {
+fun PersonalDataCard(
+    personalData: com.example.myapplication.domain.models.PersonalData,
+    onEditClick: () -> Unit
+) {
     Card(
         modifier = Modifier.fillMaxWidth(),
         colors = CardDefaults.cardColors(
@@ -107,19 +122,31 @@ fun PersonalDataCard(personalData: com.example.myapplication.domain.models.Perso
         ) {
             Row(
                 modifier = Modifier.fillMaxWidth(),
-                verticalAlignment = Alignment.CenterVertically
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.SpaceBetween
             ) {
-                Icon(
-                    imageVector = Icons.Default.Person,
-                    contentDescription = "Personal Data",
-                    tint = MaterialTheme.colorScheme.primary,
-                    modifier = Modifier.padding(end = 8.dp)
-                )
-                Text(
-                    text = "Personal Data",
-                    style = MaterialTheme.typography.titleLarge,
-                    color = MaterialTheme.colorScheme.primary
-                )
+                Row(
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    Icon(
+                        imageVector = Icons.Default.Person,
+                        contentDescription = "Personal Data",
+                        tint = MaterialTheme.colorScheme.primary,
+                        modifier = Modifier.padding(end = 8.dp)
+                    )
+                    Text(
+                        text = "Personal Data",
+                        style = MaterialTheme.typography.titleLarge,
+                        color = MaterialTheme.colorScheme.primary
+                    )
+                }
+                IconButton(onClick = onEditClick) {
+                    Icon(
+                        imageVector = Icons.Default.Edit,
+                        contentDescription = "Edit Personal Data",
+                        tint = MaterialTheme.colorScheme.primary
+                    )
+                }
             }
 
             Column(
@@ -134,7 +161,10 @@ fun PersonalDataCard(personalData: com.example.myapplication.domain.models.Perso
 }
 
 @Composable
-fun ShippingAddressCard(shippingAddress: com.example.myapplication.domain.models.ShippingAddress) {
+fun ShippingAddressCard(
+    shippingAddress: com.example.myapplication.domain.models.ShippingAddress,
+    onEditClick: () -> Unit
+) {
     Card(
         modifier = Modifier.fillMaxWidth(),
         colors = CardDefaults.cardColors(
@@ -151,19 +181,31 @@ fun ShippingAddressCard(shippingAddress: com.example.myapplication.domain.models
         ) {
             Row(
                 modifier = Modifier.fillMaxWidth(),
-                verticalAlignment = Alignment.CenterVertically
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.SpaceBetween
             ) {
-                Icon(
-                    imageVector = Icons.Default.LocationOn,
-                    contentDescription = "Shipping Address",
-                    tint = MaterialTheme.colorScheme.primary,
-                    modifier = Modifier.padding(end = 8.dp)
-                )
-                Text(
-                    text = "Shipping Address",
-                    style = MaterialTheme.typography.titleLarge,
-                    color = MaterialTheme.colorScheme.primary
-                )
+                Row(
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    Icon(
+                        imageVector = Icons.Default.LocationOn,
+                        contentDescription = "Shipping Address",
+                        tint = MaterialTheme.colorScheme.primary,
+                        modifier = Modifier.padding(end = 8.dp)
+                    )
+                    Text(
+                        text = "Shipping Address",
+                        style = MaterialTheme.typography.titleLarge,
+                        color = MaterialTheme.colorScheme.primary
+                    )
+                }
+                IconButton(onClick = onEditClick) {
+                    Icon(
+                        imageVector = Icons.Default.Edit,
+                        contentDescription = "Edit Shipping Address",
+                        tint = MaterialTheme.colorScheme.primary
+                    )
+                }
             }
 
             Column(
@@ -180,7 +222,10 @@ fun ShippingAddressCard(shippingAddress: com.example.myapplication.domain.models
 }
 
 @Composable
-fun PaymentsCard(payments: com.example.myapplication.domain.models.Payments) {
+fun PaymentsCard(
+    payments: com.example.myapplication.domain.models.Payments,
+    onEditClick: () -> Unit
+) {
     Card(
         modifier = Modifier.fillMaxWidth(),
         colors = CardDefaults.cardColors(
@@ -197,19 +242,31 @@ fun PaymentsCard(payments: com.example.myapplication.domain.models.Payments) {
         ) {
             Row(
                 modifier = Modifier.fillMaxWidth(),
-                verticalAlignment = Alignment.CenterVertically
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.SpaceBetween
             ) {
-                Icon(
-                    imageVector = Icons.Default.CreditCard,
-                    contentDescription = "Payment Methods",
-                    tint = MaterialTheme.colorScheme.primary,
-                    modifier = Modifier.padding(end = 8.dp)
-                )
-                Text(
-                    text = "Payment Methods",
-                    style = MaterialTheme.typography.titleLarge,
-                    color = MaterialTheme.colorScheme.primary
-                )
+                Row(
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    Icon(
+                        imageVector = Icons.Default.CreditCard,
+                        contentDescription = "Payment Methods",
+                        tint = MaterialTheme.colorScheme.primary,
+                        modifier = Modifier.padding(end = 8.dp)
+                    )
+                    Text(
+                        text = "Payment Methods",
+                        style = MaterialTheme.typography.titleLarge,
+                        color = MaterialTheme.colorScheme.primary
+                    )
+                }
+                IconButton(onClick = onEditClick) {
+                    Icon(
+                        imageVector = Icons.Default.Edit,
+                        contentDescription = "Edit Payment Methods",
+                        tint = MaterialTheme.colorScheme.primary
+                    )
+                }
             }
 
             Column(

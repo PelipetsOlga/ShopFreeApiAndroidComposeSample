@@ -15,11 +15,17 @@ import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
 import com.example.myapplication.ui.bottomMenu.Bag
 import com.example.myapplication.ui.bottomMenu.Category
+import com.example.myapplication.ui.bottomMenu.EditPaymentMethods
+import com.example.myapplication.ui.bottomMenu.EditPersonalData
+import com.example.myapplication.ui.bottomMenu.EditShippingAddress
 import com.example.myapplication.ui.bottomMenu.Home
 import com.example.myapplication.ui.bottomMenu.Product
 import com.example.myapplication.ui.bottomMenu.Profile
 import com.example.myapplication.ui.pdp.ProductScreen
+import com.example.myapplication.ui.profile.payment.EditPaymentMethodsScreen
+import com.example.myapplication.ui.profile.personal_data.EditPersonalDataScreen
 import com.example.myapplication.ui.profile.ProfileScreen
+import com.example.myapplication.ui.profile.shipping_address.EditShippingAddressScreen
 import com.example.myapplication.ui.search.BagScreen
 import com.example.myapplication.ui.shop.categories.CategoriesScreen
 import com.example.myapplication.ui.shop.category.CategoryProductsScreen
@@ -70,7 +76,47 @@ fun BottomNavGraph(
             popEnterTransition = { fadeIn(animationSpec) },
             popExitTransition = { fadeOut(animationSpec) },
         ) {
-            ProfileScreen()
+            ProfileScreen(
+                onEditPersonalData = { navController.navigate(EditPersonalData.route) },
+                onEditShippingAddress = { navController.navigate(EditShippingAddress.route) },
+                onEditPaymentMethods = { navController.navigate(EditPaymentMethods.route) }
+            )
+        }
+        composable(
+            route = EditPersonalData.route,
+            arguments = EditPersonalData.arguments,
+            enterTransition = { slideIntoContainer(towards = AnimatedContentTransitionScope.SlideDirection.Start) },
+            exitTransition = { slideOutOfContainer(towards = AnimatedContentTransitionScope.SlideDirection.Start) },
+            popEnterTransition = { slideIntoContainer(towards = AnimatedContentTransitionScope.SlideDirection.End) },
+            popExitTransition = { slideOutOfContainer(towards = AnimatedContentTransitionScope.SlideDirection.End) },
+        ) {
+            EditPersonalDataScreen(
+                onBackClick = { navController.popBackStack() }
+            )
+        }
+        composable(
+            route = EditShippingAddress.route,
+            arguments = EditShippingAddress.arguments,
+            enterTransition = { slideIntoContainer(towards = AnimatedContentTransitionScope.SlideDirection.Start) },
+            exitTransition = { slideOutOfContainer(towards = AnimatedContentTransitionScope.SlideDirection.Start) },
+            popEnterTransition = { slideIntoContainer(towards = AnimatedContentTransitionScope.SlideDirection.End) },
+            popExitTransition = { slideOutOfContainer(towards = AnimatedContentTransitionScope.SlideDirection.End) },
+        ) {
+            EditShippingAddressScreen(
+                onBackClick = { navController.popBackStack() }
+            )
+        }
+        composable(
+            route = EditPaymentMethods.route,
+            arguments = EditPaymentMethods.arguments,
+            enterTransition = { slideIntoContainer(towards = AnimatedContentTransitionScope.SlideDirection.Start) },
+            exitTransition = { slideOutOfContainer(towards = AnimatedContentTransitionScope.SlideDirection.Start) },
+            popEnterTransition = { slideIntoContainer(towards = AnimatedContentTransitionScope.SlideDirection.End) },
+            popExitTransition = { slideOutOfContainer(towards = AnimatedContentTransitionScope.SlideDirection.End) },
+        ) {
+            EditPaymentMethodsScreen(
+                onBackClick = { navController.popBackStack() }
+            )
         }
         composable(
             route = Category.routeWithArguments,

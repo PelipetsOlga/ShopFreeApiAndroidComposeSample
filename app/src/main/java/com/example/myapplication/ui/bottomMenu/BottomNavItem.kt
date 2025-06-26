@@ -13,6 +13,9 @@ import com.example.myapplication.ui.argPageName
 private const val HOME = "home"
 private const val BAG = "bag"
 private const val PROFILE = "profile"
+private const val EDIT_PERSONAL_DATA = "edit_personal_data"
+private const val EDIT_SHIPPING_ADDRESS = "edit_shipping_address"
+private const val EDIT_PAYMENT_METHODS = "edit_payment_methods"
 private const val CATEGORY = "category"
 private const val PRODUCT = "product"
 private val homeIcon = Icons.Default.Home
@@ -45,6 +48,21 @@ data object Profile : BottomNavItem {
     override val route = PROFILE
     override val icon = Icons.Default.Person
     override val label = "Profile"
+}
+
+data object EditPersonalData : BottomNavItem {
+    override val route = EDIT_PERSONAL_DATA
+    override val arguments = listOf(navArgument(argPageName) { defaultValue = "Edit Personal Data" })
+}
+
+data object EditShippingAddress : BottomNavItem {
+    override val route = EDIT_SHIPPING_ADDRESS
+    override val arguments = listOf(navArgument(argPageName) { defaultValue = "Edit Shipping Address" })
+}
+
+data object EditPaymentMethods : BottomNavItem {
+    override val route = EDIT_PAYMENT_METHODS
+    override val arguments = listOf(navArgument(argPageName) { defaultValue = "Edit Payment Methods" })
 }
 
 data object Category : BottomNavItem {

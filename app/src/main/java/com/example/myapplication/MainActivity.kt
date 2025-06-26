@@ -77,9 +77,9 @@ fun ShopApp(navController: NavHostController = rememberNavController()) {
                         },
                         title = {
                             Text(
-                                text = currentBackStackEntry?.destination?.arguments?.get(
+                                text = (currentBackStackEntry?.destination?.arguments?.get(
                                     argPageName
-                                )?.defaultValue as? String
+                                )?.defaultValue as? String)?.uppercase()
                                     ?: "",
                                 style = MaterialTheme.typography.titleLarge,
                                 color = MaterialTheme.colorScheme.onPrimary
