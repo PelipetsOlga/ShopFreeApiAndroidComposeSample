@@ -3,8 +3,10 @@ package com.example.myapplication.ui.profile
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material.icons.Icons
@@ -20,6 +22,7 @@ import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
@@ -39,10 +42,15 @@ fun ProfileScreen(
 ) {
     val profile by viewModel.profile.collectAsState()
 
+    // Refresh profile data when screen becomes active
+    LaunchedEffect(true) {
+        viewModel.refreshProfileOnResume()
+    }
+
     LazyColumn(
         modifier = modifier
             .fillMaxSize()
-            .padding(16.dp),
+            .padding(horizontal = 16.dp),
         verticalArrangement = Arrangement.spacedBy(16.dp)
     ) {
         item {
@@ -50,7 +58,9 @@ fun ProfileScreen(
                 text = "Profile",
                 style = MaterialTheme.typography.displayMedium,
                 textAlign = TextAlign.Center,
-                modifier = Modifier.fillMaxWidth()
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(top = 16.dp)
             )
         }
 
@@ -97,6 +107,7 @@ fun ProfileScreen(
                     onEditClick = onEditPaymentMethods
                 )
             }
+            item { Spacer(Modifier.height(16.dp)) }
         }
     }
 }
@@ -154,7 +165,6 @@ fun PersonalDataCard(
             ) {
                 ProfileField("First Name", personalData.firstName)
                 ProfileField("Second Name", personalData.secondName)
-                ProfileField("Birthday", personalData.birthday)
             }
         }
     }
@@ -300,9 +310,7 @@ fun CreditCardItem(
             modifier = Modifier.padding(bottom = 8.dp)
         )
         ProfileField("Card Number", creditCard.cardNumber)
-        ProfileField("Card Holder", creditCard.cardHolderName)
         ProfileField("Expiry Date", creditCard.expiryDate)
-        ProfileField("CVV", creditCard.cvv)
     }
 }
 
@@ -321,7 +329,9 @@ fun ProfileField(label: String, value: String) {
         )
         Text(
             text = value,
-            style = MaterialTheme.typography.bodyMedium,
+            style = MaterialTheme.typography.bodyMedium.copy(
+                fontWeight = androidx.compose.ui.text.font.FontWeight.Bold
+            ),
             color = MaterialTheme.colorScheme.onSurface
         )
     }

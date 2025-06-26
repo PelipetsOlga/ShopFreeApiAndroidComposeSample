@@ -12,8 +12,7 @@ data class Profile(
 @Serializable
 data class PersonalData(
     val firstName: String,
-    val secondName: String,
-    val birthday: String
+    val secondName: String
 )
 
 @Serializable
@@ -33,7 +32,5 @@ data class Payments(
 @Serializable
 data class CreditCard(
     val cardNumber: String,
-    val cardHolderName: String,
-    val expiryDate: String,
-    val cvv: String
+    val expiryDate: String
 ) 

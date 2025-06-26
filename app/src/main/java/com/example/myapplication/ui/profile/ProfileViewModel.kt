@@ -4,6 +4,8 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.myapplication.domain.Repository
 import com.example.myapplication.domain.models.Profile
+import com.example.myapplication.domain.models.PersonalData
+import com.example.myapplication.domain.models.ShippingAddress
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -23,10 +25,14 @@ class ProfileViewModel @Inject constructor(
         loadProfile()
     }
 
-    private fun loadProfile() {
+    fun loadProfile() {
         viewModelScope.launch {
             _profile.value = repository.getProfile()
         }
+    }
+
+    fun refreshProfile() {
+        loadProfile()
     }
 
     fun saveProfile(profile: Profile) {
@@ -36,12 +42,37 @@ class ProfileViewModel @Inject constructor(
         }
     }
 
+    fun updatePersonalData(personalData: PersonalData) {
+        viewModelScope.launch {
+            repository.updatePersonalData(personalData)
+            // Update the local state immediately with the new personal data
+            _profile.value?.let { currentProfile ->
+                _profile.value = currentProfile.copy(personalData = personalData)
+            }
+        }
+    }
+
+    fun updateShippingAddress(shippingAddress: ShippingAddress) {
+        viewModelScope.launch {
+            repository.updateShippingAddress(shippingAddress)
+            // Update the local state immediately with the new shipping address
+            _profile.value?.let { currentProfile ->
+                _profile.value = currentProfile.copy(shippingAddress = shippingAddress)
+            }
+        }
+    }
+
+    fun refreshProfileOnResume() {
+        viewModelScope.launch {
+            _profile.value = repository.getProfile()
+        }
+    }
+
     fun createDefaultProfile(): Profile {
         return Profile(
             personalData = com.example.myapplication.domain.models.PersonalData(
                 firstName = "John",
-                secondName = "Doe",
-                birthday = "1990-01-01"
+                secondName = "Doe"
             ),
             shippingAddress = com.example.myapplication.domain.models.ShippingAddress(
                 street = "123 Main St",
@@ -54,9 +85,7 @@ class ProfileViewModel @Inject constructor(
                 creditCards = listOf(
                     com.example.myapplication.domain.models.CreditCard(
                         cardNumber = "**** **** **** 1234",
-                        cardHolderName = "John Doe",
-                        expiryDate = "12/25",
-                        cvv = "123"
+                        expiryDate = "12/25"
                     )
                 )
             )

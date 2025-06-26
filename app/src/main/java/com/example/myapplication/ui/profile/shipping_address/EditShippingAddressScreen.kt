@@ -37,7 +37,75 @@ fun EditShippingAddressScreen(
     var city by remember { mutableStateOf(shippingAddress?.city ?: "") }
     var state by remember { mutableStateOf(shippingAddress?.state ?: "") }
     var zipCode by remember { mutableStateOf(shippingAddress?.zipCode ?: "") }
-    var country by remember { mutableStateOf(shippingAddress?.country ?: "") }
+    val country = "USA" // Fixed value
+
+    // Validation states
+    var streetError by remember { mutableStateOf<String?>(null) }
+    var cityError by remember { mutableStateOf<String?>(null) }
+    var stateError by remember { mutableStateOf<String?>(null) }
+    var zipCodeError by remember { mutableStateOf<String?>(null) }
+
+    // Validation functions
+    fun validateStreet(street: String): String? {
+        return when {
+            street.isBlank() -> "Street address is required"
+            street.length < 5 -> "Street address must be at least 5 characters"
+            street.length > 100 -> "Street address must be less than 100 characters"
+            !street.matches(Regex("^[a-zA-Z0-9\\s\\-\\#\\.]+$")) -> "Street address can only contain letters, numbers, spaces, hyphens, and periods"
+            else -> null
+        }
+    }
+
+    fun validateCity(city: String): String? {
+        return when {
+            city.isBlank() -> "City is required"
+            city.length < 2 -> "City must be at least 2 characters"
+            city.length > 50 -> "City must be less than 50 characters"
+            !city.matches(Regex("^[a-zA-Z\\s\\-']+$")) -> "City can only contain letters, spaces, hyphens, and apostrophes"
+            else -> null
+        }
+    }
+
+    fun validateState(state: String): String? {
+        return when {
+            state.isBlank() -> "State is required"
+            state.length < 2 -> "State must be at least 2 characters"
+            state.length > 30 -> "State must be less than 30 characters"
+            !state.matches(Regex("^[a-zA-Z\\s]+$")) -> "State can only contain letters and spaces"
+            else -> null
+        }
+    }
+
+    fun validateZipCode(zipCode: String): String? {
+        return when {
+            zipCode.isBlank() -> "Zip code is required"
+            zipCode.length < 5 -> "Zip code must be at least 5 digits"
+            zipCode.length > 10 -> "Zip code must be less than 10 characters"
+            !zipCode.matches(Regex("^[0-9\\-]+$")) -> "Zip code can only contain numbers and hyphens"
+            else -> null
+        }
+    }
+
+    // Update validation on text change
+    fun onStreetChange(newValue: String) {
+        street = newValue
+        streetError = validateStreet(newValue)
+    }
+
+    fun onCityChange(newValue: String) {
+        city = newValue
+        cityError = validateCity(newValue)
+    }
+
+    fun onStateChange(newValue: String) {
+        state = newValue
+        stateError = validateState(newValue)
+    }
+
+    fun onZipCodeChange(newValue: String) {
+        zipCode = newValue
+        zipCodeError = validateZipCode(newValue)
+    }
 
     Column(
         modifier = modifier
@@ -53,77 +121,110 @@ fun EditShippingAddressScreen(
 
         OutlinedTextField(
             value = street,
-            onValueChange = { street = it },
+            onValueChange = { onStreetChange(it) },
             label = { Text("Street Address") },
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(bottom = 16.dp),
-            singleLine = true
+            singleLine = true,
+            isError = streetError != null,
+            supportingText = {
+                if (streetError != null) {
+                    Text(
+                        text = streetError!!,
+                        color = MaterialTheme.colorScheme.error
+                    )
+                }
+            }
         )
 
         OutlinedTextField(
             value = city,
-            onValueChange = { city = it },
+            onValueChange = { onCityChange(it) },
             label = { Text("City") },
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(bottom = 16.dp),
-            singleLine = true
+            singleLine = true,
+            isError = cityError != null,
+            supportingText = {
+                if (cityError != null) {
+                    Text(
+                        text = cityError!!,
+                        color = MaterialTheme.colorScheme.error
+                    )
+                }
+            }
         )
 
         OutlinedTextField(
             value = state,
-            onValueChange = { state = it },
+            onValueChange = { onStateChange(it) },
             label = { Text("State/Province") },
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(bottom = 16.dp),
-            singleLine = true
+            singleLine = true,
+            isError = stateError != null,
+            supportingText = {
+                if (stateError != null) {
+                    Text(
+                        text = stateError!!,
+                        color = MaterialTheme.colorScheme.error
+                    )
+                }
+            }
         )
 
         OutlinedTextField(
             value = zipCode,
-            onValueChange = { zipCode = it },
+            onValueChange = { onZipCodeChange(it) },
             label = { Text("Zip/Postal Code") },
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(bottom = 16.dp),
             singleLine = true,
-            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Text)
+            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
+            isError = zipCodeError != null,
+            supportingText = {
+                if (zipCodeError != null) {
+                    Text(
+                        text = zipCodeError!!,
+                        color = MaterialTheme.colorScheme.error
+                    )
+                }
+            }
         )
 
         OutlinedTextField(
             value = country,
-            onValueChange = { country = it },
+            onValueChange = { /* Read-only */ },
             label = { Text("Country") },
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(bottom = 24.dp),
-            singleLine = true
+            singleLine = true,
+            enabled = false
         )
 
         Button(
             onClick = {
                 val updatedShippingAddress = ShippingAddress(
-                    street = street,
-                    city = city,
-                    state = state,
-                    zipCode = zipCode,
+                    street = street.trim(),
+                    city = city.trim(),
+                    state = state.trim(),
+                    zipCode = zipCode.trim(),
                     country = country
                 )
-                profile?.let { currentProfile ->
-                    val updatedProfile = currentProfile.copy(
-                        shippingAddress = updatedShippingAddress
-                    )
-                    viewModel.saveProfile(updatedProfile)
-                }
+                viewModel.updateShippingAddress(updatedShippingAddress)
                 onBackClick()
             },
             modifier = Modifier.fillMaxWidth(),
-            enabled = street.isNotBlank() && city.isNotBlank() && state.isNotBlank() && 
-                     zipCode.isNotBlank() && country.isNotBlank()
+            enabled = streetError == null && cityError == null && stateError == null && 
+                     zipCodeError == null && street.trim().isNotBlank() && city.trim().isNotBlank() && 
+                     state.trim().isNotBlank() && zipCode.trim().isNotBlank()
         ) {
-            Text("Save Changes")
+            Text("SAVE")
         }
     }
 } 

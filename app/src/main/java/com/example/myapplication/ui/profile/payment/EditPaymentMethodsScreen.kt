@@ -10,7 +10,6 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material3.Button
 import androidx.compose.material3.Card
@@ -31,6 +30,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.input.KeyboardType
+import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.myapplication.domain.models.CreditCard
@@ -81,28 +81,6 @@ fun EditPaymentMethodsScreen(
 
         Button(
             onClick = {
-                val newCard = CreditCard(
-                    cardNumber = "",
-                    cardHolderName = "",
-                    expiryDate = "",
-                    cvv = ""
-                )
-                creditCards.add(newCard)
-            },
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(vertical = 16.dp)
-        ) {
-            Icon(
-                imageVector = Icons.Default.Add,
-                contentDescription = "Add Card",
-                modifier = Modifier.padding(end = 8.dp)
-            )
-            Text("Add New Card")
-        }
-
-        Button(
-            onClick = {
                 val updatedPayments = Payments(creditCards = creditCards.toList())
                 profile?.let { currentProfile ->
                     val updatedProfile = currentProfile.copy(
@@ -114,11 +92,10 @@ fun EditPaymentMethodsScreen(
             },
             modifier = Modifier.fillMaxWidth(),
             enabled = creditCards.isNotEmpty() && creditCards.all { card ->
-                card.cardNumber.isNotBlank() && card.cardHolderName.isNotBlank() && 
-                card.expiryDate.isNotBlank() && card.cvv.isNotBlank()
+                card.cardNumber.isNotBlank() && card.expiryDate.isNotBlank()
             }
         ) {
-            Text("Save Changes")
+            Text("SAVE CHANGES")
         }
     }
 }
@@ -131,9 +108,8 @@ fun CreditCardEditCard(
     cardNumber: Int
 ) {
     var cardNumberText by remember { mutableStateOf(creditCard.cardNumber) }
-    var cardHolderName by remember { mutableStateOf(creditCard.cardHolderName) }
     var expiryDate by remember { mutableStateOf(creditCard.expiryDate) }
-    var cvv by remember { mutableStateOf(creditCard.cvv) }
+    var cvv by remember { mutableStateOf("***") }
 
     Card(
         modifier = Modifier.fillMaxWidth(),
@@ -182,19 +158,6 @@ fun CreditCardEditCard(
                 keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number)
             )
 
-            OutlinedTextField(
-                value = cardHolderName,
-                onValueChange = { 
-                    cardHolderName = it
-                    onUpdate(creditCard.copy(cardHolderName = it))
-                },
-                label = { Text("Card Holder Name") },
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(bottom = 12.dp),
-                singleLine = true
-            )
-
             Row(
                 modifier = Modifier.fillMaxWidth(),
                 horizontalArrangement = Arrangement.spacedBy(12.dp)
@@ -215,12 +178,13 @@ fun CreditCardEditCard(
                     value = cvv,
                     onValueChange = { 
                         cvv = it
-                        onUpdate(creditCard.copy(cvv = it))
+                        // CVV is not saved to the model, just for display
                     },
                     label = { Text("CVV") },
                     modifier = Modifier.weight(1f),
                     singleLine = true,
-                    keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.NumberPassword)
+                    keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.NumberPassword),
+                    visualTransformation = PasswordVisualTransformation()
                 )
             }
         }

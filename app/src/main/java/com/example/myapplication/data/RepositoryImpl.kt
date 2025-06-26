@@ -6,6 +6,8 @@ import com.example.myapplication.domain.models.Bag
 import com.example.myapplication.domain.models.BagItem
 import com.example.myapplication.domain.models.Product
 import com.example.myapplication.domain.models.Profile
+import com.example.myapplication.domain.models.PersonalData
+import com.example.myapplication.domain.models.ShippingAddress
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -96,5 +98,25 @@ class RepositoryImpl @Inject constructor(
 
     override fun getProfile(): Profile? {
         return profilePreferences.loadProfile()
+    }
+
+    override fun updatePersonalData(personalData: PersonalData) {
+        val currentProfile = profilePreferences.loadProfile()
+        if (currentProfile != null) {
+            val updatedProfile = currentProfile.copy(
+                personalData = personalData
+            )
+            profilePreferences.saveProfile(updatedProfile)
+        }
+    }
+
+    override fun updateShippingAddress(shippingAddress: ShippingAddress) {
+        val currentProfile = profilePreferences.loadProfile()
+        if (currentProfile != null) {
+            val updatedProfile = currentProfile.copy(
+                shippingAddress = shippingAddress
+            )
+            profilePreferences.saveProfile(updatedProfile)
+        }
     }
 }
