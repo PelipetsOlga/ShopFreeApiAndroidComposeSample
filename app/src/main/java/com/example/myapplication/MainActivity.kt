@@ -32,6 +32,7 @@ import com.example.myapplication.ui.argPageName
 import com.example.myapplication.ui.bottomMenu.BottomNavBar
 import com.example.myapplication.ui.theme.AppTheme
 import dagger.hilt.android.AndroidEntryPoint
+import io.cux.analytics_sdk.composable.monitor
 
 @ExperimentalMaterial3Api
 @AndroidEntryPoint
@@ -40,7 +41,7 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
-            val navController: NavHostController = rememberNavController()
+            val navController: NavHostController = rememberNavController().apply { monitor() }
             ShopApp(navController)
         }
     }
@@ -49,7 +50,7 @@ class MainActivity : AppCompatActivity() {
 @OptIn(ExperimentalMaterial3Api::class)
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
-fun ShopApp(navController: NavHostController = rememberNavController()) {
+fun ShopApp(navController: NavHostController = rememberNavController().apply { monitor() }) {
 
     val currentBackStackEntry by navController.currentBackStackEntryAsState()
 

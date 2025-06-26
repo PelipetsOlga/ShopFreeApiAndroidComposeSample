@@ -77,11 +77,6 @@ fun EditPersonalDataScreen(
             .padding(16.dp)
             .verticalScroll(rememberScrollState())
     ) {
-        Text(
-            text = "Edit Personal Data",
-            style = MaterialTheme.typography.headlineLarge,
-            modifier = Modifier.padding(bottom = 24.dp)
-        )
 
         OutlinedTextField(
             value = firstName,

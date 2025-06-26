@@ -43,7 +43,7 @@ fun EditPaymentMethodsScreen(
 ) {
     val profile by viewModel.profile.collectAsState()
     val initialCreditCard = profile?.payments?.creditCard
-
+    
     var creditCard by remember { mutableStateOf(initialCreditCard) }
 
     Column(
@@ -69,23 +69,48 @@ fun EditPaymentMethodsScreen(
                 },
                 cardNumber = 1
             )
+        } else {
+            // Show empty state with option to add card
+            Column(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalAlignment = Alignment.CenterHorizontally
+            ) {
+                Text(
+                    text = "No payment method added yet",
+                    style = MaterialTheme.typography.bodyLarge,
+                    color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.7f),
+                    modifier = Modifier.padding(bottom = 16.dp)
+                )
+                Button(
+                    onClick = {
+                        creditCard = CreditCard(
+                            cardNumber = "",
+                            expiryDate = "",
+                            cvv = ""
+                        )
+                    }
+                ) {
+                    Text("ADD PAYMENT METHOD")
+                }
+            }
         }
 
-        Button(
-            onClick = {
-                creditCard?.let { card ->
-                    val updatedPayments = Payments(creditCard = card)
-                    viewModel.updatePaymentMethods(updatedPayments)
-                    onBackClick()
-                }
-            },
-            modifier = Modifier.fillMaxWidth(),
-            enabled = creditCard != null &&
-                    creditCard!!.cardNumber.isNotBlank() &&
-                    creditCard!!.expiryDate.isNotBlank() &&
-                    creditCard!!.cvv.isNotBlank()
-        ) {
-            Text("SAVE")
+        if (creditCard != null) {
+            Button(
+                onClick = {
+                    creditCard?.let { card ->
+                        val updatedPayments = Payments(creditCard = card)
+                        viewModel.updatePaymentMethods(updatedPayments)
+                        onBackClick()
+                    }
+                },
+                modifier = Modifier.fillMaxWidth(),
+                enabled = creditCard!!.cardNumber.isNotBlank() && 
+                         creditCard!!.expiryDate.isNotBlank() && 
+                         creditCard!!.cvv.isNotBlank()
+            ) {
+                Text("SAVE")
+            }
         }
     }
 }

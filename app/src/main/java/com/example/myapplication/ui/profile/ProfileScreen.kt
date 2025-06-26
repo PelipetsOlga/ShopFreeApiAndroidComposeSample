@@ -14,7 +14,6 @@ import androidx.compose.material.icons.filled.CreditCard
 import androidx.compose.material.icons.filled.Edit
 import androidx.compose.material.icons.filled.LocationOn
 import androidx.compose.material.icons.filled.Person
-import androidx.compose.material3.Button
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Icon
@@ -65,57 +64,36 @@ fun ProfileScreen(
             )
         }
 
-        if (profile == null) {
-            item {
-                Column(
-                    modifier = Modifier.fillMaxWidth(),
-                    horizontalAlignment = Alignment.CenterHorizontally
-                ) {
-                    Text(
-                        text = "No profile data found",
-                        style = MaterialTheme.typography.bodyLarge,
-                        textAlign = TextAlign.Center,
-                        modifier = Modifier.padding(bottom = 16.dp)
-                    )
-                    Button(
-                        onClick = { viewModel.saveProfile(viewModel.createDefaultProfile()) }
-                    ) {
-                        Text("Create Default Profile")
-                    }
-                }
-            }
-        } else {
-            // Personal Data Section
-            item {
-                PersonalDataCard(
-                    personalData = profile!!.personalData,
-                    onEditClick = onEditPersonalData
-                )
-            }
-
-            // Shipping Address Section
-            item {
-                ShippingAddressCard(
-                    shippingAddress = profile!!.shippingAddress,
-                    onEditClick = onEditShippingAddress
-                )
-            }
-
-            // Payments Section
-            item {
-                PaymentsCard(
-                    payments = profile!!.payments,
-                    onEditClick = onEditPaymentMethods
-                )
-            }
-            item { Spacer(Modifier.height(16.dp)) }
+        // Personal Data Section
+        item {
+            PersonalDataCard(
+                personalData = profile?.personalData,
+                onEditClick = onEditPersonalData
+            )
         }
+
+        // Shipping Address Section
+        item {
+            ShippingAddressCard(
+                shippingAddress = profile?.shippingAddress,
+                onEditClick = onEditShippingAddress
+            )
+        }
+
+        // Payments Section
+        item {
+            PaymentsCard(
+                payments = profile?.payments,
+                onEditClick = onEditPaymentMethods
+            )
+        }
+        item { Spacer(Modifier.height(16.dp)) }
     }
 }
 
 @Composable
 fun PersonalDataCard(
-    personalData: com.example.myapplication.domain.models.PersonalData,
+    personalData: com.example.myapplication.domain.models.PersonalData?,
     onEditClick: () -> Unit
 ) {
     Card(
@@ -155,7 +133,7 @@ fun PersonalDataCard(
                 IconButton(onClick = onEditClick) {
                     Icon(
                         imageVector = Icons.Default.Edit,
-                        contentDescription = "Edit Personal Data",
+                        contentDescription = if (personalData == null) "Add Personal Data" else "Edit Personal Data",
                         tint = MaterialTheme.colorScheme.primary
                     )
                 }
@@ -164,8 +142,16 @@ fun PersonalDataCard(
             Column(
                 modifier = Modifier.padding(top = 16.dp)
             ) {
-                ProfileField("First Name", personalData.firstName)
-                ProfileField("Second Name", personalData.secondName)
+                if (personalData != null) {
+                    ProfileField("First Name", personalData.firstName)
+                    ProfileField("Second Name", personalData.secondName)
+                } else {
+                    Text(
+                        text = "No Personal data yet",
+                        style = MaterialTheme.typography.bodyMedium,
+                        color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.7f)
+                    )
+                }
             }
         }
     }
@@ -173,7 +159,7 @@ fun PersonalDataCard(
 
 @Composable
 fun ShippingAddressCard(
-    shippingAddress: com.example.myapplication.domain.models.ShippingAddress,
+    shippingAddress: com.example.myapplication.domain.models.ShippingAddress?,
     onEditClick: () -> Unit
 ) {
     Card(
@@ -213,7 +199,7 @@ fun ShippingAddressCard(
                 IconButton(onClick = onEditClick) {
                     Icon(
                         imageVector = Icons.Default.Edit,
-                        contentDescription = "Edit Shipping Address",
+                        contentDescription = if (shippingAddress == null) "Add Shipping Address" else "Edit Shipping Address",
                         tint = MaterialTheme.colorScheme.primary
                     )
                 }
@@ -222,11 +208,19 @@ fun ShippingAddressCard(
             Column(
                 modifier = Modifier.padding(top = 16.dp)
             ) {
-                ProfileField("Street", shippingAddress.street)
-                ProfileField("City", shippingAddress.city)
-                ProfileField("State", shippingAddress.state)
-                ProfileField("Zip Code", shippingAddress.zipCode)
-                ProfileField("Country", shippingAddress.country)
+                if (shippingAddress != null) {
+                    ProfileField("Street", shippingAddress.street)
+                    ProfileField("City", shippingAddress.city)
+                    ProfileField("State", shippingAddress.state)
+                    ProfileField("Zip Code", shippingAddress.zipCode)
+                    ProfileField("Country", shippingAddress.country)
+                } else {
+                    Text(
+                        text = "No Shipping Address yet",
+                        style = MaterialTheme.typography.bodyMedium,
+                        color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.7f)
+                    )
+                }
             }
         }
     }
@@ -234,7 +228,7 @@ fun ShippingAddressCard(
 
 @Composable
 fun PaymentsCard(
-    payments: com.example.myapplication.domain.models.Payments,
+    payments: com.example.myapplication.domain.models.Payments?,
     onEditClick: () -> Unit
 ) {
     Card(
@@ -274,7 +268,7 @@ fun PaymentsCard(
                 IconButton(onClick = onEditClick) {
                     Icon(
                         imageVector = Icons.Default.Edit,
-                        contentDescription = "Edit Payment Methods",
+                        contentDescription = if (payments == null) "Add Payment Method" else "Edit Payment Method",
                         tint = MaterialTheme.colorScheme.primary
                     )
                 }
@@ -283,7 +277,15 @@ fun PaymentsCard(
             Column(
                 modifier = Modifier.padding(top = 16.dp)
             ) {
-                CreditCardItem(creditCard = payments.creditCard, index = 1)
+                if (payments != null) {
+                    CreditCardItem(creditCard = payments.creditCard, index = 1)
+                } else {
+                    Text(
+                        text = "No Payment method yet",
+                        style = MaterialTheme.typography.bodyMedium,
+                        color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.7f)
+                    )
+                }
             }
         }
     }

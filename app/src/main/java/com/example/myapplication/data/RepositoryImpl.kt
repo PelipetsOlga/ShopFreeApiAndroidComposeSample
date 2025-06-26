@@ -4,11 +4,11 @@ import com.example.myapplication.data.api.ShopApiHelper
 import com.example.myapplication.domain.Repository
 import com.example.myapplication.domain.models.Bag
 import com.example.myapplication.domain.models.BagItem
+import com.example.myapplication.domain.models.Payments
+import com.example.myapplication.domain.models.PersonalData
 import com.example.myapplication.domain.models.Product
 import com.example.myapplication.domain.models.Profile
-import com.example.myapplication.domain.models.PersonalData
 import com.example.myapplication.domain.models.ShippingAddress
-import com.example.myapplication.domain.models.Payments
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -102,32 +102,26 @@ class RepositoryImpl @Inject constructor(
     }
 
     override fun updatePersonalData(personalData: PersonalData) {
-        val currentProfile = profilePreferences.loadProfile()
-        if (currentProfile != null) {
-            val updatedProfile = currentProfile.copy(
-                personalData = personalData
-            )
-            profilePreferences.saveProfile(updatedProfile)
-        }
+        val currentProfile = profilePreferences.loadProfile() ?: Profile.EMPTY
+        val updatedProfile = currentProfile.copy(
+            personalData = personalData
+        )
+        profilePreferences.saveProfile(updatedProfile)
     }
 
     override fun updateShippingAddress(shippingAddress: ShippingAddress) {
-        val currentProfile = profilePreferences.loadProfile()
-        if (currentProfile != null) {
-            val updatedProfile = currentProfile.copy(
-                shippingAddress = shippingAddress
-            )
-            profilePreferences.saveProfile(updatedProfile)
-        }
+        val currentProfile = profilePreferences.loadProfile() ?: Profile.EMPTY
+        val updatedProfile = currentProfile.copy(
+            shippingAddress = shippingAddress
+        )
+        profilePreferences.saveProfile(updatedProfile)
     }
 
     override fun updatePaymentMethods(payments: Payments) {
-        val currentProfile = profilePreferences.loadProfile()
-        if (currentProfile != null) {
-            val updatedProfile = currentProfile.copy(
-                payments = payments
-            )
-            profilePreferences.saveProfile(updatedProfile)
-        }
+        val currentProfile = profilePreferences.loadProfile() ?: Profile.EMPTY
+        val updatedProfile = currentProfile.copy(
+            payments = payments
+        )
+        profilePreferences.saveProfile(updatedProfile)
     }
 }

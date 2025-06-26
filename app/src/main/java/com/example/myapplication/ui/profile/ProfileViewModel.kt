@@ -49,6 +49,13 @@ class ProfileViewModel @Inject constructor(
             // Update the local state immediately with the new personal data
             _profile.value?.let { currentProfile ->
                 _profile.value = currentProfile.copy(personalData = personalData)
+            } ?: run {
+                // If no profile exists, create one with just personal data
+                _profile.value = Profile(
+                    personalData = personalData,
+                    shippingAddress = null,
+                    payments = null
+                )
             }
         }
     }
@@ -59,6 +66,13 @@ class ProfileViewModel @Inject constructor(
             // Update the local state immediately with the new shipping address
             _profile.value?.let { currentProfile ->
                 _profile.value = currentProfile.copy(shippingAddress = shippingAddress)
+            } ?: run {
+                // If no profile exists, create one with just shipping address
+                _profile.value = Profile(
+                    personalData = null,
+                    shippingAddress = shippingAddress,
+                    payments = null
+                )
             }
         }
     }
@@ -69,6 +83,13 @@ class ProfileViewModel @Inject constructor(
             // Update the local state immediately with the new payment methods
             _profile.value?.let { currentProfile ->
                 _profile.value = currentProfile.copy(payments = payments)
+            } ?: run {
+                // If no profile exists, create one with just payments
+                _profile.value = Profile(
+                    personalData = null,
+                    shippingAddress = null,
+                    payments = payments
+                )
             }
         }
     }
@@ -99,6 +120,14 @@ class ProfileViewModel @Inject constructor(
                     cvv = "123"
                 )
             )
+        )
+    }
+
+    fun createEmptyProfile(): Profile {
+        return Profile(
+            personalData = null,
+            shippingAddress = null,
+            payments = null
         )
     }
 } 

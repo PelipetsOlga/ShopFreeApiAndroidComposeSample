@@ -4,15 +4,31 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 data class Profile(
-    val personalData: PersonalData,
-    val shippingAddress: ShippingAddress,
-    val payments: Payments
-)
+    val personalData: PersonalData?, val shippingAddress: ShippingAddress?, val payments: Payments?
+) {
+    companion object {
+        val EMPTY = Profile(null, null, null)
+        val DEFAULT = Profile(
+            personalData = PersonalData(
+                firstName = "John", secondName = "Doe"
+            ), shippingAddress = ShippingAddress(
+                street = "123 Main St",
+                city = "New York",
+                state = "NY",
+                zipCode = "10001",
+                country = "USA"
+            ), payments = Payments(
+                creditCard = CreditCard(
+                    cardNumber = "1234567890123456", expiryDate = "12/25", cvv = "123"
+                )
+            )
+        )
+    }
+}
 
 @Serializable
 data class PersonalData(
-    val firstName: String,
-    val secondName: String
+    val firstName: String, val secondName: String
 )
 
 @Serializable
@@ -31,7 +47,5 @@ data class Payments(
 
 @Serializable
 data class CreditCard(
-    val cardNumber: String,
-    val expiryDate: String,
-    val cvv: String
+    val cardNumber: String, val expiryDate: String, val cvv: String
 ) 
