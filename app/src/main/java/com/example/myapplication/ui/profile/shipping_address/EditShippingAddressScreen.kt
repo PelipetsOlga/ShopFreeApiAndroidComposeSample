@@ -9,11 +9,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Delete
-import androidx.compose.material3.Button
-import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
@@ -25,13 +20,14 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.input.KeyboardType
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.myapplication.domain.models.ShippingAddress
 import com.example.myapplication.ui.profile.ProfileViewModel
-import androidx.compose.ui.tooling.preview.Preview
+import com.example.myapplication.ui.ui_components.DeleteIconButton
+import com.example.myapplication.ui.ui_components.PrimaryButton
 
 @Composable
 fun EditShippingAddressScreen(
@@ -129,18 +125,12 @@ fun EditShippingAddressScreen(
         ) {
 
             if (shippingAddress != null) {
-                IconButton(
+                DeleteIconButton(
                     onClick = {
                         viewModel.deleteShippingAddress()
                         onBackClick()
                     }
-                ) {
-                    Icon(
-                        imageVector = Icons.Default.Delete,
-                        contentDescription = "Delete Shipping Address",
-                        tint = Color.Red
-                    )
-                }
+                )
             }
         }
 
@@ -232,7 +222,8 @@ fun EditShippingAddressScreen(
             enabled = false
         )
 
-        Button(
+        PrimaryButton(
+            text = "SAVE",
             onClick = {
                 val updatedShippingAddress = ShippingAddress(
                     street = street.trim(),
@@ -244,14 +235,11 @@ fun EditShippingAddressScreen(
                 viewModel.updateShippingAddress(updatedShippingAddress)
                 onBackClick()
             },
-            modifier = Modifier.fillMaxWidth(),
             enabled = streetError == null && cityError == null && stateError == null &&
                     zipCodeError == null && street.trim().isNotBlank() && city.trim()
                 .isNotBlank() &&
                     state.trim().isNotBlank() && zipCode.trim().isNotBlank()
-        ) {
-            Text("SAVE")
-        }
+        )
     }
 }
 

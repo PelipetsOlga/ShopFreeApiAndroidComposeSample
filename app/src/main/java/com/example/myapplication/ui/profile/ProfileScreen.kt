@@ -10,16 +10,12 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.CreditCard
-import androidx.compose.material.icons.filled.Edit
 import androidx.compose.material.icons.filled.LocationOn
 import androidx.compose.material.icons.filled.Person
-import androidx.compose.material3.Button
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -37,6 +33,9 @@ import com.example.myapplication.domain.models.Payments
 import com.example.myapplication.domain.models.PersonalData
 import com.example.myapplication.domain.models.ShippingAddress
 import com.example.myapplication.ui.profile.payment.CardMaskingUtils
+import com.example.myapplication.ui.ui_components.AddIconButton
+import com.example.myapplication.ui.ui_components.EditIconButton
+import com.example.myapplication.ui.ui_components.RedPrimaryButton
 
 @Composable
 fun ProfileScreen(
@@ -81,21 +80,19 @@ fun ProfileScreen(
         }
 
         // Delete Account Button
-        if (profile != null) {
+        if (profile?.personalData != null
+            || profile?.shippingAddress != null
+            || profile?.payments != null
+        ) {
             item {
-                Button(
+                RedPrimaryButton(
+                    text = "DELETE ACCOUNT",
                     onClick = {
                         viewModel.deleteProfile()
                     },
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(top = 16.dp),
-                    colors = androidx.compose.material3.ButtonDefaults.buttonColors(
-                        containerColor = Color.Red
-                    )
-                ) {
-                    Text("DELETE ACCOUNT")
-                }
+                    modifier = Modifier.padding(top = 16.dp),
+                    enabled = true
+                )
             }
         }
         item { Spacer(Modifier.height(16.dp)) }
@@ -138,11 +135,15 @@ fun PersonalDataCard(
                         color = MaterialTheme.colorScheme.primary
                     )
                 }
-                IconButton(onClick = onEditClick) {
-                    Icon(
-                        imageVector = if (personalData == null) Icons.Default.Add else Icons.Default.Edit,
-                        contentDescription = if (personalData == null) "Add Personal Data" else "Edit Personal Data",
-                        tint = MaterialTheme.colorScheme.primary
+                if (personalData == null) {
+                    AddIconButton(
+                        onClick = onEditClick,
+                        contentDescription = "Add Personal Data"
+                    )
+                } else {
+                    EditIconButton(
+                        onClick = onEditClick,
+                        contentDescription = "Edit Personal Data"
                     )
                 }
             }
@@ -202,11 +203,15 @@ fun ShippingAddressCard(
                         color = MaterialTheme.colorScheme.primary
                     )
                 }
-                IconButton(onClick = onEditClick) {
-                    Icon(
-                        imageVector = if (shippingAddress == null) Icons.Default.Add else Icons.Default.Edit,
-                        contentDescription = if (shippingAddress == null) "Add Shipping Address" else "Edit Shipping Address",
-                        tint = MaterialTheme.colorScheme.primary
+                if (shippingAddress == null) {
+                    AddIconButton(
+                        onClick = onEditClick,
+                        contentDescription = "Add Shipping Address"
+                    )
+                } else {
+                    EditIconButton(
+                        onClick = onEditClick,
+                        contentDescription = "Edit Shipping Address"
                     )
                 }
             }
@@ -268,11 +273,15 @@ fun PaymentsCard(
                         color = MaterialTheme.colorScheme.primary
                     )
                 }
-                IconButton(onClick = onEditClick) {
-                    Icon(
-                        imageVector = if (payments == null) Icons.Default.Add else Icons.Default.Edit,
-                        contentDescription = if (payments == null) "Add Payment Method" else "Edit Payment Method",
-                        tint = MaterialTheme.colorScheme.primary
+                if (payments == null) {
+                    AddIconButton(
+                        onClick = onEditClick,
+                        contentDescription = "Add Payment Method"
+                    )
+                } else {
+                    EditIconButton(
+                        onClick = onEditClick,
+                        contentDescription = "Edit Payment Method"
                     )
                 }
             }
