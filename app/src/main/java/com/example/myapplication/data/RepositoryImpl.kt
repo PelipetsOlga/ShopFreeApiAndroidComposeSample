@@ -101,7 +101,7 @@ class RepositoryImpl @Inject constructor(
         return profilePreferences.loadProfile()
     }
 
-    override fun updatePersonalData(personalData: PersonalData) {
+    override fun updatePersonalData(personalData: PersonalData?) {
         val currentProfile = profilePreferences.loadProfile() ?: Profile.EMPTY
         val updatedProfile = currentProfile.copy(
             personalData = personalData
@@ -109,7 +109,7 @@ class RepositoryImpl @Inject constructor(
         profilePreferences.saveProfile(updatedProfile)
     }
 
-    override fun updateShippingAddress(shippingAddress: ShippingAddress) {
+    override fun updateShippingAddress(shippingAddress: ShippingAddress?) {
         val currentProfile = profilePreferences.loadProfile() ?: Profile.EMPTY
         val updatedProfile = currentProfile.copy(
             shippingAddress = shippingAddress
@@ -117,11 +117,15 @@ class RepositoryImpl @Inject constructor(
         profilePreferences.saveProfile(updatedProfile)
     }
 
-    override fun updatePaymentMethods(payments: Payments) {
+    override fun updatePaymentMethods(payments: Payments?) {
         val currentProfile = profilePreferences.loadProfile() ?: Profile.EMPTY
         val updatedProfile = currentProfile.copy(
             payments = payments
         )
         profilePreferences.saveProfile(updatedProfile)
+    }
+
+    override fun deleteProfile() {
+        profilePreferences.deleteProfile()
     }
 }

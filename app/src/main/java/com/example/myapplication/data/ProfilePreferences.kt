@@ -33,6 +33,12 @@ class ProfilePreferences @Inject constructor(
         }
     }
 
+    fun deleteProfile() {
+        sharedPreferences.edit()
+            .remove(KEY_PROFILE)
+            .apply()
+    }
+
     companion object {
         private const val PREF_NAME = "profile_preferences"
         private const val KEY_PROFILE = "profile"

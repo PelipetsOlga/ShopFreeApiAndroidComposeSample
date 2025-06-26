@@ -10,10 +10,12 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.CreditCard
 import androidx.compose.material.icons.filled.Edit
 import androidx.compose.material.icons.filled.LocationOn
 import androidx.compose.material.icons.filled.Person
+import androidx.compose.material3.Button
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Icon
@@ -27,9 +29,13 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import com.example.myapplication.domain.models.CreditCard
+import com.example.myapplication.domain.models.Payments
+import com.example.myapplication.domain.models.PersonalData
+import com.example.myapplication.domain.models.ShippingAddress
 import com.example.myapplication.ui.profile.payment.CardMaskingUtils
 
 @Composable
@@ -53,39 +59,44 @@ fun ProfileScreen(
             .padding(horizontal = 16.dp),
         verticalArrangement = Arrangement.spacedBy(16.dp)
     ) {
-        item {
-            Text(
-                text = "Profile",
-                style = MaterialTheme.typography.displayMedium,
-                textAlign = TextAlign.Center,
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(top = 16.dp)
-            )
-        }
 
-        // Personal Data Section
+        item { Spacer(Modifier.height(16.dp)) }
+
         item {
             PersonalDataCard(
-                personalData = profile?.personalData,
-                onEditClick = onEditPersonalData
+                personalData = profile?.personalData, onEditClick = onEditPersonalData
             )
         }
 
-        // Shipping Address Section
         item {
             ShippingAddressCard(
-                shippingAddress = profile?.shippingAddress,
-                onEditClick = onEditShippingAddress
+                shippingAddress = profile?.shippingAddress, onEditClick = onEditShippingAddress
             )
         }
 
-        // Payments Section
         item {
             PaymentsCard(
-                payments = profile?.payments,
-                onEditClick = onEditPaymentMethods
+                payments = profile?.payments, onEditClick = onEditPaymentMethods
             )
+        }
+
+        // Delete Account Button
+        if (profile != null) {
+            item {
+                Button(
+                    onClick = {
+                        viewModel.deleteProfile()
+                    },
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(top = 16.dp),
+                    colors = androidx.compose.material3.ButtonDefaults.buttonColors(
+                        containerColor = Color.Red
+                    )
+                ) {
+                    Text("DELETE ACCOUNT")
+                }
+            }
         }
         item { Spacer(Modifier.height(16.dp)) }
     }
@@ -93,15 +104,12 @@ fun ProfileScreen(
 
 @Composable
 fun PersonalDataCard(
-    personalData: com.example.myapplication.domain.models.PersonalData?,
-    onEditClick: () -> Unit
+    personalData: com.example.myapplication.domain.models.PersonalData?, onEditClick: () -> Unit
 ) {
     Card(
-        modifier = Modifier.fillMaxWidth(),
-        colors = CardDefaults.cardColors(
+        modifier = Modifier.fillMaxWidth(), colors = CardDefaults.cardColors(
             containerColor = Color.White
-        ),
-        elevation = CardDefaults.cardElevation(
+        ), elevation = CardDefaults.cardElevation(
             defaultElevation = 8.dp
         )
     ) {
@@ -132,7 +140,7 @@ fun PersonalDataCard(
                 }
                 IconButton(onClick = onEditClick) {
                     Icon(
-                        imageVector = Icons.Default.Edit,
+                        imageVector = if (personalData == null) Icons.Default.Add else Icons.Default.Edit,
                         contentDescription = if (personalData == null) "Add Personal Data" else "Edit Personal Data",
                         tint = MaterialTheme.colorScheme.primary
                     )
@@ -163,11 +171,9 @@ fun ShippingAddressCard(
     onEditClick: () -> Unit
 ) {
     Card(
-        modifier = Modifier.fillMaxWidth(),
-        colors = CardDefaults.cardColors(
+        modifier = Modifier.fillMaxWidth(), colors = CardDefaults.cardColors(
             containerColor = Color.White
-        ),
-        elevation = CardDefaults.cardElevation(
+        ), elevation = CardDefaults.cardElevation(
             defaultElevation = 8.dp
         )
     ) {
@@ -198,7 +204,7 @@ fun ShippingAddressCard(
                 }
                 IconButton(onClick = onEditClick) {
                     Icon(
-                        imageVector = Icons.Default.Edit,
+                        imageVector = if (shippingAddress == null) Icons.Default.Add else Icons.Default.Edit,
                         contentDescription = if (shippingAddress == null) "Add Shipping Address" else "Edit Shipping Address",
                         tint = MaterialTheme.colorScheme.primary
                     )
@@ -228,15 +234,12 @@ fun ShippingAddressCard(
 
 @Composable
 fun PaymentsCard(
-    payments: com.example.myapplication.domain.models.Payments?,
-    onEditClick: () -> Unit
+    payments: com.example.myapplication.domain.models.Payments?, onEditClick: () -> Unit
 ) {
     Card(
-        modifier = Modifier.fillMaxWidth(),
-        colors = CardDefaults.cardColors(
+        modifier = Modifier.fillMaxWidth(), colors = CardDefaults.cardColors(
             containerColor = Color.White
-        ),
-        elevation = CardDefaults.cardElevation(
+        ), elevation = CardDefaults.cardElevation(
             defaultElevation = 8.dp
         )
     ) {
@@ -267,7 +270,7 @@ fun PaymentsCard(
                 }
                 IconButton(onClick = onEditClick) {
                     Icon(
-                        imageVector = Icons.Default.Edit,
+                        imageVector = if (payments == null) Icons.Default.Add else Icons.Default.Edit,
                         contentDescription = if (payments == null) "Add Payment Method" else "Edit Payment Method",
                         tint = MaterialTheme.colorScheme.primary
                     )
@@ -293,8 +296,7 @@ fun PaymentsCard(
 
 @Composable
 fun CreditCardItem(
-    creditCard: com.example.myapplication.domain.models.CreditCard,
-    index: Int
+    creditCard: com.example.myapplication.domain.models.CreditCard, index: Int
 ) {
     Column(
         modifier = Modifier.fillMaxWidth()
@@ -325,11 +327,69 @@ fun ProfileField(label: String, value: String) {
             color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.7f)
         )
         Text(
-            text = value,
-            style = MaterialTheme.typography.bodyMedium.copy(
+            text = value, style = MaterialTheme.typography.bodyMedium.copy(
                 fontWeight = androidx.compose.ui.text.font.FontWeight.Bold
-            ),
-            color = MaterialTheme.colorScheme.onSurface
+            ), color = MaterialTheme.colorScheme.onSurface
         )
+    }
+}
+
+@Preview(showBackground = true)
+@Composable
+fun PersonalDataCardWithDataPreview() {
+    MaterialTheme {
+        PersonalDataCard(personalData = PersonalData(
+            firstName = "John", secondName = "Doe"
+        ), onEditClick = {})
+    }
+}
+
+@Preview(showBackground = true)
+@Composable
+fun PersonalDataCardNoDataPreview() {
+    MaterialTheme {
+        PersonalDataCard(personalData = null, onEditClick = {})
+    }
+}
+
+@Preview(showBackground = true)
+@Composable
+fun ShippingAddressCardWithDataPreview() {
+    MaterialTheme {
+        ShippingAddressCard(shippingAddress = ShippingAddress(
+            street = "123 Main St",
+            city = "New York",
+            state = "NY",
+            zipCode = "10001",
+            country = "USA"
+        ), onEditClick = {})
+    }
+}
+
+@Preview(showBackground = true)
+@Composable
+fun ShippingAddressCardNoDataPreview() {
+    MaterialTheme {
+        ShippingAddressCard(shippingAddress = null, onEditClick = {})
+    }
+}
+
+@Preview(showBackground = true)
+@Composable
+fun PaymentsCardWithDataPreview() {
+    MaterialTheme {
+        PaymentsCard(payments = Payments(
+            creditCard = CreditCard(
+                cardNumber = "1234567890123456", expiryDate = "12/25", cvv = "123"
+            )
+        ), onEditClick = {})
+    }
+}
+
+@Preview(showBackground = true)
+@Composable
+fun PaymentsCardNoDataPreview() {
+    MaterialTheme {
+        PaymentsCard(payments = null, onEditClick = {})
     }
 } 

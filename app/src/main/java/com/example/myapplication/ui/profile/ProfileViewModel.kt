@@ -3,10 +3,10 @@ package com.example.myapplication.ui.profile
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.myapplication.domain.Repository
-import com.example.myapplication.domain.models.Profile
-import com.example.myapplication.domain.models.PersonalData
-import com.example.myapplication.domain.models.ShippingAddress
 import com.example.myapplication.domain.models.Payments
+import com.example.myapplication.domain.models.PersonalData
+import com.example.myapplication.domain.models.Profile
+import com.example.myapplication.domain.models.ShippingAddress
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -43,7 +43,7 @@ class ProfileViewModel @Inject constructor(
         }
     }
 
-    fun updatePersonalData(personalData: PersonalData) {
+    fun updatePersonalData(personalData: PersonalData?) {
         viewModelScope.launch {
             repository.updatePersonalData(personalData)
             // Update the local state immediately with the new personal data
@@ -60,7 +60,7 @@ class ProfileViewModel @Inject constructor(
         }
     }
 
-    fun updateShippingAddress(shippingAddress: ShippingAddress) {
+    fun updateShippingAddress(shippingAddress: ShippingAddress?) {
         viewModelScope.launch {
             repository.updateShippingAddress(shippingAddress)
             // Update the local state immediately with the new shipping address
@@ -77,7 +77,7 @@ class ProfileViewModel @Inject constructor(
         }
     }
 
-    fun updatePaymentMethods(payments: Payments) {
+    fun updatePaymentMethods(payments: Payments?) {
         viewModelScope.launch {
             repository.updatePaymentMethods(payments)
             // Update the local state immediately with the new payment methods
@@ -129,5 +129,42 @@ class ProfileViewModel @Inject constructor(
             shippingAddress = null,
             payments = null
         )
+    }
+
+    fun deletePersonalData() {
+        viewModelScope.launch {
+            repository.updatePersonalData(null)
+            // Update the local state immediately
+            _profile.value?.let { currentProfile ->
+                _profile.value = currentProfile.copy(personalData = null)
+            }
+        }
+    }
+
+    fun deleteShippingAddress() {
+        viewModelScope.launch {
+            repository.updateShippingAddress(null)
+            // Update the local state immediately
+            _profile.value?.let { currentProfile ->
+                _profile.value = currentProfile.copy(shippingAddress = null)
+            }
+        }
+    }
+
+    fun deletePaymentMethods() {
+        viewModelScope.launch {
+            repository.updatePaymentMethods(null)
+            // Update the local state immediately
+            _profile.value?.let { currentProfile ->
+                _profile.value = currentProfile.copy(payments = null)
+            }
+        }
+    }
+
+    fun deleteProfile() {
+        viewModelScope.launch {
+            repository.deleteProfile()
+            _profile.value = null
+        }
     }
 } 

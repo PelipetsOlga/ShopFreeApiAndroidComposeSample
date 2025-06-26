@@ -1,12 +1,18 @@
 package com.example.myapplication.ui.profile.personal_data
 
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material3.Button
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
@@ -16,12 +22,14 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.text.input.KeyboardType
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.myapplication.domain.models.PersonalData
 import com.example.myapplication.ui.profile.ProfileViewModel
+import androidx.compose.ui.tooling.preview.Preview
 
 @Composable
 fun EditPersonalDataScreen(
@@ -34,7 +42,7 @@ fun EditPersonalDataScreen(
 
     var firstName by remember { mutableStateOf(personalData?.firstName ?: "") }
     var secondName by remember { mutableStateOf(personalData?.secondName ?: "") }
-    
+
     // Validation states
     var firstNameError by remember { mutableStateOf<String?>(null) }
     var secondNameError by remember { mutableStateOf<String?>(null) }
@@ -77,6 +85,31 @@ fun EditPersonalDataScreen(
             .padding(16.dp)
             .verticalScroll(rememberScrollState())
     ) {
+        Row(
+            modifier = Modifier.fillMaxWidth(),
+            horizontalArrangement = Arrangement.SpaceBetween,
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            Text(
+                text = "Edit Personal Data",
+                style = MaterialTheme.typography.headlineLarge,
+                modifier = Modifier.padding(bottom = 24.dp)
+            )
+            if (personalData != null) {
+                IconButton(
+                    onClick = {
+                        viewModel.deletePersonalData()
+                        onBackClick()
+                    }
+                ) {
+                    Icon(
+                        imageVector = Icons.Default.Delete,
+                        contentDescription = "Delete Personal Data",
+                        tint = Color.Red
+                    )
+                }
+            }
+        }
 
         OutlinedTextField(
             value = firstName,
@@ -126,10 +159,37 @@ fun EditPersonalDataScreen(
                 onBackClick()
             },
             modifier = Modifier.fillMaxWidth(),
-            enabled = firstNameError == null && secondNameError == null && 
-                     firstName.trim().isNotBlank() && secondName.trim().isNotBlank()
+            enabled = firstNameError == null && secondNameError == null &&
+                    firstName.trim().isNotBlank() && secondName.trim().isNotBlank()
         ) {
             Text("SAVE")
+        }
+    }
+}
+
+@Preview(showBackground = true)
+@Composable
+fun EditPersonalDataScreenPreview() {
+    MaterialTheme {
+        EditPersonalDataScreen()
+    }
+}
+
+@Preview(showBackground = true)
+@Composable
+fun PersonalDataNoDataPreview() {
+    MaterialTheme {
+        Column(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(16.dp),
+            horizontalAlignment = Alignment.CenterHorizontally
+        ) {
+            Text(
+                text = "No Personal data yet",
+                style = MaterialTheme.typography.bodyMedium,
+                color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.7f)
+            )
         }
     }
 } 

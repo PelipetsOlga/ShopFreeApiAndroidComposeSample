@@ -34,6 +34,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.myapplication.domain.models.CreditCard
 import com.example.myapplication.domain.models.Payments
 import com.example.myapplication.ui.profile.ProfileViewModel
+import androidx.compose.ui.tooling.preview.Preview
 
 @Composable
 fun EditPaymentMethodsScreen(
@@ -43,7 +44,7 @@ fun EditPaymentMethodsScreen(
 ) {
     val profile by viewModel.profile.collectAsState()
     val initialCreditCard = profile?.payments?.creditCard
-    
+
     var creditCard by remember { mutableStateOf(initialCreditCard) }
 
     Column(
@@ -52,11 +53,7 @@ fun EditPaymentMethodsScreen(
             .padding(16.dp)
             .verticalScroll(rememberScrollState())
     ) {
-        Text(
-            text = "Edit Payment",
-            style = MaterialTheme.typography.headlineLarge,
-            modifier = Modifier.padding(bottom = 24.dp)
-        )
+
 
         if (creditCard != null) {
             CreditCardEditSection(
@@ -66,6 +63,7 @@ fun EditPaymentMethodsScreen(
                 },
                 onDelete = {
                     creditCard = null
+                    viewModel.updatePaymentMethods(null)
                 },
                 cardNumber = 1
             )
@@ -105,9 +103,9 @@ fun EditPaymentMethodsScreen(
                     }
                 },
                 modifier = Modifier.fillMaxWidth(),
-                enabled = creditCard!!.cardNumber.isNotBlank() && 
-                         creditCard!!.expiryDate.isNotBlank() && 
-                         creditCard!!.cvv.isNotBlank()
+                enabled = creditCard!!.cardNumber.isNotBlank() &&
+                        creditCard!!.expiryDate.isNotBlank() &&
+                        creditCard!!.cvv.isNotBlank()
             ) {
                 Text("SAVE")
             }
@@ -187,15 +185,10 @@ fun CreditCardEditSection(
     ) {
         Row(
             modifier = Modifier.fillMaxWidth(),
-            horizontalArrangement = Arrangement.SpaceBetween,
+            horizontalArrangement = Arrangement.End,
             verticalAlignment = Alignment.CenterVertically
         ) {
-            Text(
-                text = "Card $cardNumber",
-                style = MaterialTheme.typography.titleLarge,
-                color = MaterialTheme.colorScheme.primary,
-                modifier = Modifier.padding(bottom = 16.dp)
-            )
+
             IconButton(onClick = onDelete) {
                 Icon(
                     imageVector = Icons.Default.Delete,
@@ -267,6 +260,48 @@ fun CreditCardEditSection(
                     }
                 }
             )
+        }
+    }
+}
+
+@Preview(showBackground = true)
+@Composable
+fun CreditCardEditSectionPreview() {
+    MaterialTheme {
+        CreditCardEditSection(
+            creditCard = CreditCard(
+                cardNumber = "1234567890123456",
+                expiryDate = "12/25",
+                cvv = "123"
+            ),
+            onUpdate = {},
+            onDelete = {},
+            cardNumber = 1
+        )
+    }
+}
+
+@Preview(showBackground = true)
+@Composable
+fun CreditCardNoDataPreview() {
+    MaterialTheme {
+        Column(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(16.dp),
+            horizontalAlignment = Alignment.CenterHorizontally
+        ) {
+            Text(
+                text = "No payment method added yet",
+                style = MaterialTheme.typography.bodyLarge,
+                color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.7f),
+                modifier = Modifier.padding(bottom = 16.dp)
+            )
+            Button(
+                onClick = {}
+            ) {
+                Text("ADD PAYMENT METHOD")
+            }
         }
     }
 } 
