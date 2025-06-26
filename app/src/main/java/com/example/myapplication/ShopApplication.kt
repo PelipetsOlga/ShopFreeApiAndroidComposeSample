@@ -9,6 +9,6 @@ class ShopApplication: Application() {
 
     override fun onCreate() {
         super.onCreate()
-        CuxAnalytics.init(this, "1428112091-0-76456300-1480349278-583c565e0fc5d")
+        CuxAnalytics.init(this, "1902166147.0.60686300.1750841890.685bba2294296")
     }
 }
