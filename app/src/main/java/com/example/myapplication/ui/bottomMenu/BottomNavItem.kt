@@ -62,7 +62,7 @@ data object EditShippingAddress : BottomNavItem {
 
 data object EditPaymentMethods : BottomNavItem {
     override val route = EDIT_PAYMENT_METHODS
-    override val arguments = listOf(navArgument(argPageName) { defaultValue = "Edit Payment Methods" })
+    override val arguments = listOf(navArgument(argPageName) { defaultValue = "Edit Payment" })
 }
 
 data object Category : BottomNavItem {

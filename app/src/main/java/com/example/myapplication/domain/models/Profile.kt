@@ -26,11 +26,12 @@ data class ShippingAddress(
 
 @Serializable
 data class Payments(
-    val creditCards: List<CreditCard>
+    val creditCard: CreditCard
 )
 
 @Serializable
 data class CreditCard(
     val cardNumber: String,
-    val expiryDate: String
+    val expiryDate: String,
+    val cvv: String
 ) 

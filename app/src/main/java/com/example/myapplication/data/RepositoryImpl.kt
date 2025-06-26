@@ -8,6 +8,7 @@ import com.example.myapplication.domain.models.Product
 import com.example.myapplication.domain.models.Profile
 import com.example.myapplication.domain.models.PersonalData
 import com.example.myapplication.domain.models.ShippingAddress
+import com.example.myapplication.domain.models.Payments
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -115,6 +116,16 @@ class RepositoryImpl @Inject constructor(
         if (currentProfile != null) {
             val updatedProfile = currentProfile.copy(
                 shippingAddress = shippingAddress
+            )
+            profilePreferences.saveProfile(updatedProfile)
+        }
+    }
+
+    override fun updatePaymentMethods(payments: Payments) {
+        val currentProfile = profilePreferences.loadProfile()
+        if (currentProfile != null) {
+            val updatedProfile = currentProfile.copy(
+                payments = payments
             )
             profilePreferences.saveProfile(updatedProfile)
         }

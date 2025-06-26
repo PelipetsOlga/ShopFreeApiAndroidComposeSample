@@ -5,6 +5,7 @@ import com.example.myapplication.domain.models.PersonalData
 import com.example.myapplication.domain.models.Product
 import com.example.myapplication.domain.models.Profile
 import com.example.myapplication.domain.models.ShippingAddress
+import com.example.myapplication.domain.models.Payments
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.StateFlow
 
@@ -34,4 +35,6 @@ interface Repository {
     fun updatePersonalData(personalData: PersonalData)
 
     fun updateShippingAddress(shippingAddress: ShippingAddress)
+
+    fun updatePaymentMethods(payments: Payments)
 }

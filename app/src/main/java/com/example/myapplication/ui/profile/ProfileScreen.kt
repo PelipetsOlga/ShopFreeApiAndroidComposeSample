@@ -31,6 +31,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import com.example.myapplication.ui.profile.payment.CardMaskingUtils
 
 @Composable
 fun ProfileScreen(
@@ -265,7 +266,7 @@ fun PaymentsCard(
                         modifier = Modifier.padding(end = 8.dp)
                     )
                     Text(
-                        text = "Payment Methods",
+                        text = "Payment",
                         style = MaterialTheme.typography.titleLarge,
                         color = MaterialTheme.colorScheme.primary
                     )
@@ -282,14 +283,7 @@ fun PaymentsCard(
             Column(
                 modifier = Modifier.padding(top = 16.dp)
             ) {
-                payments.creditCards.forEachIndexed { index, creditCard ->
-                    CreditCardItem(creditCard = creditCard, index = index + 1)
-                    if (index < payments.creditCards.size - 1) {
-                        androidx.compose.material3.HorizontalDivider(
-                            modifier = Modifier.padding(vertical = 8.dp)
-                        )
-                    }
-                }
+                CreditCardItem(creditCard = payments.creditCard, index = 1)
             }
         }
     }
@@ -309,8 +303,9 @@ fun CreditCardItem(
             color = MaterialTheme.colorScheme.primary,
             modifier = Modifier.padding(bottom = 8.dp)
         )
-        ProfileField("Card Number", creditCard.cardNumber)
+        ProfileField("Card Number", CardMaskingUtils.maskCardNumber(creditCard.cardNumber))
         ProfileField("Expiry Date", creditCard.expiryDate)
+        ProfileField("CVV", CardMaskingUtils.maskCVV(creditCard.cvv))
     }
 }
 

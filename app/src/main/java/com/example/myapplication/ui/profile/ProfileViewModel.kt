@@ -6,6 +6,7 @@ import com.example.myapplication.domain.Repository
 import com.example.myapplication.domain.models.Profile
 import com.example.myapplication.domain.models.PersonalData
 import com.example.myapplication.domain.models.ShippingAddress
+import com.example.myapplication.domain.models.Payments
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -62,6 +63,16 @@ class ProfileViewModel @Inject constructor(
         }
     }
 
+    fun updatePaymentMethods(payments: Payments) {
+        viewModelScope.launch {
+            repository.updatePaymentMethods(payments)
+            // Update the local state immediately with the new payment methods
+            _profile.value?.let { currentProfile ->
+                _profile.value = currentProfile.copy(payments = payments)
+            }
+        }
+    }
+
     fun refreshProfileOnResume() {
         viewModelScope.launch {
             _profile.value = repository.getProfile()
@@ -82,11 +93,10 @@ class ProfileViewModel @Inject constructor(
                 country = "USA"
             ),
             payments = com.example.myapplication.domain.models.Payments(
-                creditCards = listOf(
-                    com.example.myapplication.domain.models.CreditCard(
-                        cardNumber = "**** **** **** 1234",
-                        expiryDate = "12/25"
-                    )
+                creditCard = com.example.myapplication.domain.models.CreditCard(
+                    cardNumber = "1234567890123456",
+                    expiryDate = "12/25",
+                    cvv = "123"
                 )
             )
         )
