@@ -8,6 +8,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.myapplication.ui.ui_components.CategoryCard
+import io.cux.analytics_sdk.composable.monitorElement
 
 @Composable
 fun CategoriesScreen(
@@ -22,7 +23,9 @@ fun CategoriesScreen(
         items(categories.size) { index ->
             CategoryCard(
                 categories[index],
-                onCategoryClick = { onCategoryClick.invoke(categories[index].title) })
+                onCategoryClick = { onCategoryClick.invoke(categories[index].title) },
+                modifier = Modifier.monitorElement(monitorTag = "${categories[index].title}")
+            )
         }
     }
 }

@@ -101,7 +101,7 @@ fun ProfileScreen(
 
 @Composable
 fun PersonalDataCard(
-    personalData: com.example.myapplication.domain.models.PersonalData?, onEditClick: () -> Unit
+    personalData: PersonalData?, onEditClick: () -> Unit
 ) {
     Card(
         modifier = Modifier.fillMaxWidth(), colors = CardDefaults.cardColors(

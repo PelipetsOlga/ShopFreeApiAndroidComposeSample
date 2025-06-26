@@ -8,6 +8,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.style.TextAlign
 import androidx.navigation.NavDestination
@@ -15,6 +16,7 @@ import androidx.navigation.NavDestination.Companion.hierarchy
 import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
+import io.cux.analytics_sdk.composable.monitorElement
 
 @Composable
 fun BottomNavBar(navController: NavHostController) {
@@ -59,6 +61,7 @@ fun RowScope.AddItem(
     selected: Boolean,
 ) {
     BottomNavigationItem(
+        modifier = Modifier.monitorElement("tab_${screen.label}"),
         label = {
             Text(
                 text = screen.label,

@@ -1,4 +1,4 @@
-package com.example.myapplication.ui.search
+package com.example.myapplication.ui.bag
 
 import androidx.lifecycle.ViewModel
 import com.example.myapplication.domain.Repository

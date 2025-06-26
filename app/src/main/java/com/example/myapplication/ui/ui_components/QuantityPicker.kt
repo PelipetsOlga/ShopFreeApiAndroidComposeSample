@@ -20,6 +20,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import io.cux.analytics_sdk.composable.monitorElement
 
 @Composable
 fun QuantityPicker(
@@ -45,6 +46,7 @@ fun QuantityPicker(
                 }
             },
             modifier = Modifier.size(40.dp)
+                .monitorElement(monitorTag = "decrease_qty")
         ) {
             Icon(
                 imageVector = Icons.Default.Remove,
@@ -61,7 +63,9 @@ fun QuantityPicker(
         
         IconButton(
             onClick = { quantityCallback(count + 1) },
-            modifier = Modifier.size(40.dp)
+            modifier = Modifier
+                .size(40.dp)
+                .monitorElement(monitorTag = "increase_qty")
         ) {
             Icon(
                 imageVector = Icons.Default.Add,

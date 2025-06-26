@@ -26,7 +26,7 @@ import com.example.myapplication.ui.profile.payment.EditPaymentMethodsScreen
 import com.example.myapplication.ui.profile.personal_data.EditPersonalDataScreen
 import com.example.myapplication.ui.profile.ProfileScreen
 import com.example.myapplication.ui.profile.shipping_address.EditShippingAddressScreen
-import com.example.myapplication.ui.search.BagScreen
+import com.example.myapplication.ui.bag.BagScreen
 import com.example.myapplication.ui.shop.categories.CategoriesScreen
 import com.example.myapplication.ui.shop.category.CategoryProductsScreen
 

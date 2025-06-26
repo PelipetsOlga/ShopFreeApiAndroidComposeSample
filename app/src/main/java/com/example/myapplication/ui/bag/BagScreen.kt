@@ -1,4 +1,4 @@
-package com.example.myapplication.ui.search
+package com.example.myapplication.ui.bag
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -39,6 +39,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import coil.compose.AsyncImage
+import io.cux.analytics_sdk.composable.monitorElement
 
 @Composable
 fun BagScreen(
@@ -105,7 +106,8 @@ fun BagItemCard(
 ) {
     val density = androidx.compose.ui.platform.LocalDensity.current
     Card(
-        modifier = modifier.onGloballyPositioned { coordinates ->
+        modifier = modifier
+            .onGloballyPositioned { coordinates ->
             onCardHeightMeasured(coordinates.size.height)
         },
         colors = CardDefaults.cardColors(
@@ -182,6 +184,7 @@ fun BagItemCard(
                                 textAlign = TextAlign.End,
                                 modifier = Modifier
                                     .fillMaxWidth()
+                                    .monitorElement(monitorTag = "delete_bag_item")
                                     .clickable { onDeleteClick() }
                             )
                         }
@@ -207,6 +210,7 @@ fun DeleteOverlay(
             Column(
                 modifier = Modifier
                     .weight(1f)
+                    .monitorElement(monitorTag = "undo_bag_item")
                     .fillMaxHeight()
                     .background(Color.Gray)
                     .padding(16.dp)
@@ -233,6 +237,7 @@ fun DeleteOverlay(
             Column(
                 modifier = Modifier
                     .weight(1f)
+                    .monitorElement(monitorTag = "delete_confirm_bag_item")
                     .fillMaxHeight()
                     .background(Color.Red)
                     .padding(16.dp)

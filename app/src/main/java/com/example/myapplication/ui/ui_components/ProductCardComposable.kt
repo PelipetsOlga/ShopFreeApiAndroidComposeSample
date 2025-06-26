@@ -31,15 +31,17 @@ import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
 import com.example.myapplication.domain.models.PRODUCT_MOCK
 import com.example.myapplication.domain.models.Product
+import io.cux.analytics_sdk.composable.monitorElement
 
 @Composable
 fun ProductItemCard(
     product: Product,
     onProductClick: (String) -> Unit = {},
-    onAddToBag: (Product) -> Unit = {}
+    onAddToBag: (Product) -> Unit = {},
 ) {
     Card(
         modifier = Modifier
+            .monitorElement(monitorTag = "product_${product.id}")
             .padding(vertical = 8.dp, horizontal = 16.dp)
             .clickable { onProductClick.invoke(product.id) },
         colors = CardDefaults.cardColors(
@@ -86,6 +88,7 @@ fun ProductItemCard(
                 )
                 IconButton(
                     modifier = Modifier
+                        .monitorElement(monitorTag = "add_to_bag_from_category")
                         .padding(start = 16.dp)
                         .size(36.dp),
                     onClick = { onAddToBag(product) }
@@ -165,6 +168,7 @@ fun ProductCard(
                     onClick = { onAddToBag(quantity) },
                     modifier = Modifier
                         .fillMaxWidth()
+                        .monitorElement(monitorTag = "add_to_bag_from_product")
                         .padding(top = 16.dp)
                 ) {
                     Text(

@@ -18,6 +18,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
+import io.cux.analytics_sdk.composable.monitorElement
 
 @Composable
 fun PrimaryButton(
@@ -29,7 +30,7 @@ fun PrimaryButton(
 ) {
     Button(
         onClick = onClick,
-        modifier = modifier.fillMaxWidth(),
+        modifier = modifier.fillMaxWidth().monitorElement("btn_$text"),
         enabled = enabled,
         colors = ButtonDefaults.buttonColors(
             containerColor = containerColor
@@ -63,7 +64,7 @@ fun EditIconButton(
 ) {
     IconButton(
         onClick = onClick,
-        modifier = modifier
+        modifier = modifier.monitorElement("edit_icon_btn")
     ) {
         Icon(
             imageVector = Icons.Default.Edit,
@@ -81,7 +82,7 @@ fun AddIconButton(
 ) {
     IconButton(
         onClick = onClick,
-        modifier = modifier
+        modifier = modifier.monitorElement("add_icon_btn")
     ) {
         Icon(
             imageVector = Icons.Default.Add,
